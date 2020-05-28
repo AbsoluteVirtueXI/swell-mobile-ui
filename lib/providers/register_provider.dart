@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:swell_mobile_ui/api/api.dart';
 
 
+class UserProvider {
+
+}
 
 Future<bool> isRegistered(String ethereumAddress) async {
   Map<String, dynamic> obj;
@@ -12,9 +15,5 @@ Future<bool> isRegistered(String ethereumAddress) async {
     print(e);
   }
   return obj['isRegistered'];
-
-}
-
-Future<bool> register(String ethereumAddress) async {
 
 }

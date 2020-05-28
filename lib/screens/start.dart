@@ -5,7 +5,8 @@ import 'package:swell_mobile_ui/providers/secret_provider.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
 import 'package:swell_mobile_ui/screens/home.dart';
 import 'package:swell_mobile_ui/screens/create_login.dart';
-
+import 'package:swell_mobile_ui/screens/profil.dart';
+import 'package:swell_mobile_ui/screens/root.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class SplashScreen extends StatelessWidget {
                 } else if( secret.isFirstUse == true) {
                   return CreateLogin(secret);
                 } else {
-                  return Home(secret);
+                  return Root(secret);
                 }}
                 ),
         )));

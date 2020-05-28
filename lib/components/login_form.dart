@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swell_mobile_ui/screens/home.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
+import 'package:swell_mobile_ui/api/api.dart';
+import 'package:swell_mobile_ui/screens/profil.dart';
+import 'package:swell_mobile_ui/screens/root.dart';
 
 class LoginForm extends StatefulWidget {
   final Secret secret;
@@ -12,6 +15,8 @@ class LoginForm extends StatefulWidget {
 
 class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  bool registered = false;
+  final _loginController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -22,6 +27,7 @@ class LoginFormState extends State<LoginForm> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           TextFormField(
+            controller: _loginController,
             decoration: InputDecoration(
                 hintText: 'Login',
                 labelText: 'Enter you login',
@@ -40,8 +46,8 @@ class LoginFormState extends State<LoginForm> {
               onPressed: () {
                 if(_formKey.currentState.validate()) {
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing data')));
-
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(widget.secret)));
+                  _register(context, _loginController.text);
+                  //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(widget.secret)));
                 }
               },
               child: Text('Register'),
@@ -52,4 +58,12 @@ class LoginFormState extends State<LoginForm> {
       )
     );
   }
+
+  _register(BuildContext context, String login) async {
+    var res = await register(widget.secret.ethAddress, login);
+    if(res == true) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Root(widget.secret)));
+    }
+  }
+
 }
