@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
 import 'package:swell_mobile_ui/screens/start.dart';
+import 'package:swell_mobile_ui/screens/play_video.dart';
+
 void main() {
   runApp(MyApp());
 }

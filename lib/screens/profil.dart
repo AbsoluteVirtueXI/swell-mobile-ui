@@ -7,8 +7,6 @@ import 'package:swell_mobile_ui/screens/create_login.dart';
 
 
 class Profil extends StatelessWidget {
-  final Secret secret;
-  Profil(this.secret);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

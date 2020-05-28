@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:swell_mobile_ui/models/user.dart';
 
 const BASE_URL = 'http://192.168.0.10:7777';
 
-Future<User> get_Profile(int id) async {
-  var response = await http.get('${BASE_URL}')
-}
 
 Future<String> get_isRegistered (String ethereumAddress) async {
   var response = await  http.get('${BASE_URL}/is_registered/${ethereumAddress}');
@@ -17,6 +15,17 @@ Future<String> get_isRegistered (String ethereumAddress) async {
   }
 }
 
+Future<User> getUser(String eth) async {
+  print('API CALL');
+  var response = await http.get('${BASE_URL}/is_registered/${eth}');
+  if(response.statusCode == 200) {
+  Map userMap  = jsonDecode(response.body);
+  var user = User.fromJson(userMap);
+  return user;
+  }else {
+    throw Exception('Failed to call isREgistrered');
+  }
+}
 
 Future<bool> register(String eth_addr, String login) async {
   var response = await http.post(

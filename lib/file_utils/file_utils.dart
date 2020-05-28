@@ -22,7 +22,7 @@ Future<File> getSecretFile() async {
 
 Future<bool> createSecretFile(File file) async {
   var cred = await generateNewCredentials();
-  await file.writeAsString('${cred[0]}\n${cred[1]}\n');
+  await file.writeAsString('0x${cred[0]}\n${cred[1]}\n');
   return true;
 }
 
