@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:swell_mobile_ui/models/secret.dart';
-import 'package:swell_mobile_ui/screens/start.dart';
-import 'package:swell_mobile_ui/screens/play_video.dart';
+import 'package:provider/provider.dart';
+import 'package:swell_mobile_ui/screens/splash.dart';
+import 'package:swell_mobile_ui/services/secret_service.dart';
+import 'package:swell_mobile_ui/services/api_service.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Squarrin());
 }
 
-class MyApp extends StatelessWidget {
+class Squarrin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SplashScreen(),
-    );
+    return MultiProvider(
+        providers: [
+          Provider<SecretService>(
+            create: (_) => SecretService(),
+          ),
+          Provider<ApiService>(
+            create: (_) => ApiService(),
+          )
+        ],
+        child: MaterialApp(
+          title: 'Squarrin',
+          home: SplashScreen(),
+        ));
   }
 }

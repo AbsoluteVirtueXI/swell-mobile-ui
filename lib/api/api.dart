@@ -6,12 +6,12 @@ import 'package:swell_mobile_ui/models/user.dart';
 const BASE_URL = 'http://192.168.0.10:7777';
 
 
-Future<String> get_isRegistered (String ethereumAddress) async {
+Future<bool> isRegistered (String ethereumAddress) async {
   var response = await  http.get('${BASE_URL}/is_registered/${ethereumAddress}');
   if(response.statusCode == 200) {
-    return response.body;
+    return true;
   } else {
-    throw Exception('Failed to call isRegistered');
+    return false;
   }
 }
 
@@ -27,23 +27,7 @@ Future<User> getUser(String eth) async {
   }
 }
 
-Future<bool> register(String eth_addr, String login) async {
-  var response = await http.post(
-    '${BASE_URL}/register',
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    },
-    body: jsonEncode(<String, String>{
-      'login' : login,
-      'eth_addr' : eth_addr,
-    })
-  );
-  if(response.statusCode == 201) {
-    return true;
-  } else {
-    return false;
-  }
-}
+
 
 /*
 Future<int> getUserIdByUsername(String username) async {

@@ -4,7 +4,7 @@ import 'package:swell_mobile_ui/providers/secret_provider.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
 import 'package:swell_mobile_ui/providers/user_provider.dart';
 import 'package:swell_mobile_ui/screens/home.dart';
-import 'package:swell_mobile_ui/screens/create_login.dart';
+import 'package:swell_mobile_ui/screens/registration.dart';
 import 'package:swell_mobile_ui/models/user.dart';
 
 
@@ -16,7 +16,7 @@ class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Home()
+        body: Home(this.secret)
     );
   }
 }

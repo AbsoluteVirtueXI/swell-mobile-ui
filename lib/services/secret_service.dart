@@ -1,34 +1,23 @@
 import 'package:swell_mobile_ui/file_utils/file_utils.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
-/*
 
-class SecretProvider {
-  Secret secret;
+class SecretService {
   Future<Secret> loadSecret() async {
-    String priv;
-    String addr;
-    bool isFirstUse = false;
     try {
       var file = await getSecretFile();
-      if(await _isFirstUse()) {
-        isFirstUse = true;
+      if (await _isFirstUse()) {
         await createSecretFile(file);
       }
-      var contents = await readSecretFile(file);
-      priv = contents[0];
-      addr = contents[1];
-    }catch(e) {
+      var secret = await readSecretFile(file);
+      return secret;
+    } catch (e) {
       print(e);
+      throw e;
     }
-    secret =  Secret(priv, addr, isFirstUse);
-    return secret;
   }
 }
-
 
 Future<bool> _isFirstUse() async {
   var file = await getSecretFile();
   return !(await secretExists(file));
 }
-
- */

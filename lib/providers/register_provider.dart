@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'dart:convert';
 import 'package:swell_mobile_ui/api/api.dart';
@@ -17,3 +18,5 @@ Future<bool> isRegistered(String ethereumAddress) async {
   return obj['isRegistered'];
 
 }
+
+ */

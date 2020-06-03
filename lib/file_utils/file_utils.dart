@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 import 'package:swell_mobile_ui/eth_utils/keys.dart';
+import 'package:swell_mobile_ui/models/secret.dart';
+import 'dart:convert';
 
 const SECRET_FILE = 'secret.txt';
 
@@ -21,16 +23,14 @@ Future<File> getSecretFile() async {
 }
 
 Future<bool> createSecretFile(File file) async {
-  var cred = await generateNewCredentials();
-  await file.writeAsString('0x${cred[0]}\n${cred[1]}\n');
+  Secret secret = await generateNewCredentials();
+  await file.writeAsString(jsonEncode(secret));
   return true;
 }
 
-Future<List<String>> readSecretFile(File file) async {
+Future<Secret> readSecretFile(File file) async {
   var contents = await file.readAsString();
-  var priv = contents.split('\n')[0];
-  var address = contents.split('\n')[1].substring(2);
-  return [priv, address];
+  return  Secret.fromJson(jsonDecode(contents));
 }
 
 Future<bool> secretExists(File secret) async {

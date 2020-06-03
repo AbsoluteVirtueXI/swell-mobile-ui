@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:swell_mobile_ui/providers/secret_provider.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
 import 'package:swell_mobile_ui/screens/home.dart';
-import 'package:swell_mobile_ui/screens/create_login.dart';
+import 'package:swell_mobile_ui/screens/registration.dart';
 
-
+/*
 class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,3 +22,4 @@ class Profil extends StatelessWidget {
         );
   }
 }
+*/
