@@ -4,7 +4,8 @@ import 'package:swell_mobile_ui/screens/splash.dart';
 import 'package:swell_mobile_ui/services/secret_service.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 
-void main() {
+void main(){
+
   runApp(Squarrin());
 }
 
@@ -18,7 +19,7 @@ class Squarrin extends StatelessWidget {
           ),
           Provider<ApiService>(
             create: (_) => ApiService(),
-          )
+          ),
         ],
         child: MaterialApp(
           title: 'Squarrin',

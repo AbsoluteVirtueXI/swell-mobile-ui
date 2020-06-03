@@ -7,5 +7,5 @@ Future<Secret> generateNewCredentials() async {
   var rng = Random.secure();
   var random = EthPrivateKey.createRandom(rng);
   var address = await random.extractAddress();
-  return Secret(bytesToInt(random.privateKey).toString(), '0x${address.toString()}');
+  return Secret(bytesToInt(random.privateKey).toString(), '${address.toString()}');
 }

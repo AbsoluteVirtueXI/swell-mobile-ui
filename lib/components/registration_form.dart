@@ -1,20 +1,18 @@
-/*
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:swell_mobile_ui/screens/home.dart';
+import 'package:provider/provider.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
-import 'package:swell_mobile_ui/api/api.dart';
-import 'package:swell_mobile_ui/screens/profil.dart';
+import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:swell_mobile_ui/screens/root.dart';
 
-class LoginForm extends StatefulWidget {
+class RegistrationForm extends StatefulWidget {
   final Secret secret;
-  LoginForm(this.secret);
+  RegistrationForm(this.secret);
   @override
-  LoginFormState createState() => LoginFormState();
+  RegistrationFormState createState() => RegistrationFormState();
 }
 
-class LoginFormState extends State<LoginForm> {
+class RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
   bool registered = false;
   final _loginController = TextEditingController();
@@ -31,7 +29,7 @@ class LoginFormState extends State<LoginForm> {
             controller: _loginController,
             decoration: InputDecoration(
                 hintText: 'Login',
-                labelText: 'Enter you login',
+                labelText: 'Enter your login',
               isDense: true,
             ),
             validator: (value) {
@@ -61,12 +59,11 @@ class LoginFormState extends State<LoginForm> {
   }
 
   _register(BuildContext context, String login) async {
-    var res = await register(widget.secret.ethAddress, login);
+    var api = Provider.of<ApiService>(context, listen: false);
+    var res = await api.register(widget.secret.ethAddress, login);
     if(res == true) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Root(widget.secret)));
     }
   }
 
 }
-
- */

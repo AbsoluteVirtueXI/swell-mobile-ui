@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
-import 'package:swell_mobile_ui/screens/home.dart';
+import 'package:swell_mobile_ui/screens/root.dart';
 import 'package:swell_mobile_ui/screens/registration.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:swell_mobile_ui/services/secret_service.dart';
@@ -31,9 +31,11 @@ class SplashScreen extends StatelessWidget {
                           child: Consumer<bool>(
                            builder: (context, isRegistered, child) {
                              if (isRegistered == true) {
-                               return Home(secret);
-                             } else {
+                               return Root(secret);
+                             } else if (isRegistered == false) {
                                return RegistrationScreen(secret);
+                             } else {
+                               return CircularProgressIndicator();
                              }
                            }
                           ),

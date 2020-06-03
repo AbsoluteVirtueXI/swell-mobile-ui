@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:swell_mobile_ui/models/user.dart';
 
 const BASE_URL = 'http://192.168.0.10:7777';
 
@@ -14,7 +15,7 @@ class ApiService {
     }
   }
 
-  Future<bool> post_register(String ethAddr, String login) async {
+  Future<bool> register(String ethAddr, String login) async {
     var response = await http.post(
         '${BASE_URL}/register',
         headers: <String, String>{
@@ -32,4 +33,27 @@ class ApiService {
       return false;
     }
   }
+  
+  Future<int> getId(String ethAddr) async {
+    var response = await http.get('${BASE_URL}/get_id/${ethAddr}');
+    if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
+      return int.parse(res['message']);
+    } else {
+      return 0;
+    }
+  }
+
+  Stream<User> profileStream(int id) async* {
+    while(true) {
+      print('One api call');
+      await Future.delayed(const Duration(seconds: 5));
+      var response = await http.get('${BASE_URL}/get_user_by_id/${id}');
+      if(response.statusCode == 200) {
+        var profile = User.fromJson(jsonDecode(response.body));
+        yield profile;
+      }
+  }
+  }
+  
 }
