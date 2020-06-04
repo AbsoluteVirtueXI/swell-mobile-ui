@@ -5,6 +5,7 @@ import 'package:swell_mobile_ui/screens/splash.dart';
 import 'package:swell_mobile_ui/services/secret_service.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:swell_mobile_ui/screens/root.dart';
+import 'package:swell_mobile_ui/screens/play_video.dart';
 
 void main(){
 
@@ -26,7 +27,8 @@ class Squarrin extends StatelessWidget {
         child: MaterialApp(
           title: 'Squarrin',
           //home: SplashScreen(),
-          home: Root(15),
+          //home: Root(15),
+          home: VideoPlayerApp(),
         ));
   }
 }

@@ -8,6 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:swell_mobile_ui/screens/upload_video.dart';
 // TODO should check if register
 
 class RecordScreen extends StatelessWidget {
@@ -90,7 +91,7 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   // Crear los controles que permiten la interacción del video
-  Widget _buildControls() {
+  Widget _buildControls(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -107,7 +108,7 @@ class _CameraScreenState extends State<CameraScreen> {
         // Ícono para tener la grabación
         IconButton(
           icon: Icon(Icons.stop),
-          onPressed: _isRecording ? _onStop : null,
+          onPressed: _isRecording ? () => _onStop(context) : null,
         ),
         // Ícono para reproducir el video grabado
         IconButton(
@@ -122,11 +123,12 @@ class _CameraScreenState extends State<CameraScreen> {
   void _onPlay() => OpenFile.open(_filePath);
 
   // Detener la grabación de video
-  Future<void> _onStop() async {
+  Future<void> _onStop(BuildContext context) async {
     // Utilizar el controlador para detener la grabación
     await _controller.stopVideoRecording();
     // Actualizar la bandera de grabación
     setState(() => _isRecording = false);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen(_filePath)));
   }
 
   // Iniciar la grabación de video
@@ -165,10 +167,9 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Video recording with Flutter')),
       body: Column(children: [
-        Container(height: 500, child: Center(child: _buildCamera())),
-        _buildControls(),
+        Container(height: 600, child: Center(child: _buildCamera())),
+        _buildControls(context),
       ]),
     );
   }

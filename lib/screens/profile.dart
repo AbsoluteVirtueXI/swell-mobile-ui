@@ -9,11 +9,13 @@ import 'package:swell_mobile_ui/models/user.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('rebuild profile screen');
     return Scaffold(
       body: Center(
         child: Consumer<User>(
           builder: (context, profile, child) {
             if (profile != null) {
+              print('profile not null null');
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -48,6 +50,7 @@ class ProfileScreen extends StatelessWidget {
                 ],
               );
             } else {
+              print('profile is null');
             return CircularProgressIndicator();
             }
           },
