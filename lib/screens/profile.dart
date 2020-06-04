@@ -42,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   RaisedButton(
                     onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Home(),
+                      builder: (context) => HomeScreen(),
                     ))
                   ),
                 ],

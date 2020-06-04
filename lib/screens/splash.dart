@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Image.asset('images/squarrin_logo.jpg',
-                              width: 600, height: 240, fit: BoxFit.cover),
+                              width: 600, height: 600, fit: BoxFit.cover),
                           Text('squarrin', style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold)),
                         ],
@@ -31,7 +31,7 @@ class SplashScreen extends StatelessWidget {
                           child: Consumer<bool>(
                            builder: (context, isRegistered, child) {
                              if (isRegistered == true) {
-                               return Root(secret);
+                               return Root(15); // TODO CHANGE THIS
                              } else if (isRegistered == false) {
                                return RegistrationScreen(secret);
                              } else {

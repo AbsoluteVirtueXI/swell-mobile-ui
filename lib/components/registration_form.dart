@@ -62,7 +62,8 @@ class RegistrationFormState extends State<RegistrationForm> {
     var api = Provider.of<ApiService>(context, listen: false);
     var res = await api.register(widget.secret.ethAddress, login);
     if(res == true) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Root(widget.secret)));
+      var id = await api.getId(widget.secret.ethAddress);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Root(id)));
     }
   }
 

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:swell_mobile_ui/models/user.dart';
 // TODO should check if register
 
-class HomeScreen extends StatelessWidget {
+class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
         child: Consumer<User>(
           builder: (context, profile, child) {
             if (profile != null) {
-              return Text('in home with ${profile.login}');
+              return Text('in Search with ${profile.login}');
             } else {
               return CircularProgressIndicator();
             }

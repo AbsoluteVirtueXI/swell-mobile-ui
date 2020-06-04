@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:swell_mobile_ui/models/user.dart';
 import 'package:swell_mobile_ui/screens/splash.dart';
 import 'package:swell_mobile_ui/services/secret_service.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
+import 'package:swell_mobile_ui/screens/root.dart';
 
 void main(){
 
@@ -23,7 +25,8 @@ class Squarrin extends StatelessWidget {
         ],
         child: MaterialApp(
           title: 'Squarrin',
-          home: SplashScreen(),
+          //home: SplashScreen(),
+          home: Root(15),
         ));
   }
 }

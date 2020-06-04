@@ -18,5 +18,18 @@ class User {
     liked = json['liked'] != null ? List<int>.from(json['liked']) : <int>[];
 
   }
-  User.empty();
+  User.empty() {
+    id = 0;
+    login = "";
+    eth_addr = "";
+    bio = "";
+    czar = 0;
+    videos = <int>[];
+    video_bought = <int>[];
+    liked = <int>[];
+  }
+}
+
+class MyProfile extends User {
+  MyProfile() : super.empty();
 }
