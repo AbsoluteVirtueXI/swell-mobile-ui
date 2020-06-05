@@ -36,6 +36,7 @@ dependencies:
   video_player: ^0.10.11+1
   persistent_bottom_nav_bar: ^1.5.5
   open_file: ^3.0.1
+  dio: ^3.0.9
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,7 @@ import 'package:swell_mobile_ui/models/secret.dart';
 import 'package:swell_mobile_ui/screens/home.dart';
 import 'package:swell_mobile_ui/screens/registration.dart';
 import 'package:swell_mobile_ui/models/user.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
@@ -43,8 +44,9 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   RaisedButton(
-                    onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
+                    onPressed: () =>
+                        //pushNewScreen(context, screen: HomeScreen(), platformSpecific: false, withNavBar: true)/*
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen(),
                     ))
                   ),
                 ],

@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:swell_mobile_ui/screens/upload_video.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
+
 // TODO should check if register
 
 class RecordScreen extends StatelessWidget {
@@ -128,6 +130,8 @@ class _CameraScreenState extends State<CameraScreen> {
     await _controller.stopVideoRecording();
     // Actualizar la bandera de grabación
     setState(() => _isRecording = false);
+    //pushNewScreen(context, screen: UploadScreen(_filePath), platformSpecific: false, withNavBar: false);
+
     Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen(_filePath)));
   }
 

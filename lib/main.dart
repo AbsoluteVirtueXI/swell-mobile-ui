@@ -27,8 +27,8 @@ class Squarrin extends StatelessWidget {
         child: MaterialApp(
           title: 'Squarrin',
           //home: SplashScreen(),
-          //home: Root(15),
-          home: VideoPlayerApp(),
+          home: Root(1),
+          //home: VideoPlayerApp(),
         ));
   }
 }

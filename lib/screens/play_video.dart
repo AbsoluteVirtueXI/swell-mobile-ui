@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-
+/*
 class VideoPlayerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,11 @@ class VideoPlayerApp extends StatelessWidget {
     );
   }
 }
-
+*/
 class VideoPlayerScreen extends StatefulWidget {
-  VideoPlayerScreen({Key key}) : super(key: key);
+  final filePath;
+  VideoPlayerScreen(this.filePath);
+  //VideoPlayerScreen({Key key}) : super(key: key);
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
@@ -31,7 +33,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     // offers several different constructors to play videos from assets, files,
     // or the internet.
     _controller = VideoPlayerController.network(
-      'http://192.168.0.10:7777/files/butterfly.mp4',
+      widget.filePath,
     );
 
     // Initialize the controller and store the Future for later use.
@@ -54,9 +56,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Swell Server'),
-      ),
       // Use a FutureBuilder to display a loading spinner while waiting for the
       // VideoPlayerController to finish initializing.
       body: FutureBuilder(
@@ -65,11 +64,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             // If the VideoPlayerController has finished initialization, use
             // the data it provides to limit the aspect ratio of the video.
-            return AspectRatio(
+            /*return AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
               // Use the VideoPlayer widget to display the video.
               child: VideoPlayer(_controller),
-            );
+            );*/
+            return VideoPlayer(_controller);
           } else {
             // If the VideoPlayerController is still initializing, show a
             // loading spinner.
