@@ -31,7 +31,19 @@ class SplashScreen extends StatelessWidget {
                           child: Consumer<bool>(
                            builder: (context, isRegistered, child) {
                              if (isRegistered == true) {
-                               return Root(15); // TODO CHANGE THIS
+                               return FutureProvider<int>(
+                                 create: (context) async => await Provider.of<ApiService>(context, listen :false).getId(secret.ethAddress),
+                                 child: Consumer<int>(
+                                   builder: (context, id, child) {
+                                     if(id == null) {
+                                       return CircularProgressIndicator();
+                                     } else {
+                                       return Root(id);
+                                     }
+                                   }
+                                 )
+                                 //Root(15); // TODO CHANGE THIS
+                               );
                              } else if (isRegistered == false) {
                                return RegistrationScreen(secret);
                              } else {
