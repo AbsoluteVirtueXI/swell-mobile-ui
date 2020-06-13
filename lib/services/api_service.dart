@@ -5,7 +5,7 @@ import 'package:swell_mobile_ui/models/video.dart';
 
 import 'package:dio/dio.dart';
 
-const BASE_URL = 'http://192.168.0.10:7777';
+const BASE_URL = 'https://api.squarrin.com';
 
 class ApiService {
   Future<bool> get_isRegistered(String ethAddr) async {
@@ -51,7 +51,7 @@ class ApiService {
       ..fields['owner_id'] = video.ownerId.toString()
       ..fields['title'] = video.title
       ..fields['bio'] = video.bio
-      ..fields['prince'] = video.price.toString()
+      ..fields['price'] = video.price.toString()
       ..files
           .add(await http.MultipartFile.fromPath('content', video.localPath));
     var response = await request.send();

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:swell_mobile_ui/models/user.dart';
 
-const BASE_URL = 'http://192.168.0.10:7777';
+const BASE_URL = 'https://api.squarrin.com';
 
 
 Future<bool> isRegistered (String ethereumAddress) async {

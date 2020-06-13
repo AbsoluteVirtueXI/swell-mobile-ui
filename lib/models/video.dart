@@ -1,4 +1,4 @@
-const SERVER_URL = 'http://192.168.0.10:7777/';
+const SERVER_URL = 'https://api.squarrin.com/';
 
 class Video {
   int id;
