@@ -6,6 +6,8 @@ class User {
   int czar;
   List<int> videos;
   List<int> video_bought;
+  List<int> items;
+  List<int> items_bought;
   List<int> liked;
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -15,6 +17,8 @@ class User {
     czar = json['czar'];
     videos = json['videos'] != null ? List<int>.from(json['videos']): <int>[];
     video_bought = json['video_bought'] != null ? List<int>.from(json['video_bought']) : <int>[];
+    items = json['videos'] != null ? List<int>.from(json['videos']): <int>[];
+    items_bought = json['video_bought'] != null ? List<int>.from(json['video_bought']) : <int>[];
     liked = json['liked'] != null ? List<int>.from(json['liked']) : <int>[];
 
   }
@@ -26,6 +30,8 @@ class User {
     czar = 0;
     videos = <int>[];
     video_bought = <int>[];
+    items = <int>[];
+    items_bought = <int>[];
     liked = <int>[];
   }
 }
