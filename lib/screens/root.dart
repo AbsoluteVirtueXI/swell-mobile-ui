@@ -10,6 +10,7 @@ import 'package:swell_mobile_ui/screens/profile.dart';
 import 'package:swell_mobile_ui/screens/record_video.dart';
 import 'package:swell_mobile_ui/screens/sell.dart';
 import 'package:swell_mobile_ui/screens/search.dart';
+import 'package:swell_mobile_ui/screens/shopping.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -53,10 +54,11 @@ class _SquarrinState extends State<Squarrin> {
   List<Widget> _buildScreens() {
     return [
       HomeScreen(),
-      SearchScreen(),
+      //SearchScreen(),
       RecordScreen(),
       SellScreen(),
       ProfileScreen(),
+      ShoppingScreen(),
     ];
   }
 
@@ -69,13 +71,13 @@ class _SquarrinState extends State<Squarrin> {
         inactiveColor: Colors.grey,
         isTranslucent: false,
       ),
-      PersistentBottomNavBarItem(
+      /*PersistentBottomNavBarItem(
         icon: Icon(Icons.search),
         title: ("Search"),
         activeColor: Colors.teal,
         inactiveColor: Colors.grey,
         isTranslucent: false,
-      ),
+      ),*/
       PersistentBottomNavBarItem(
         icon: Icon(Icons.videocam),
         title: ("Record"),
@@ -93,6 +95,13 @@ class _SquarrinState extends State<Squarrin> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.account_box),
         title: ("Profile"),
+        activeColor: Colors.indigo,
+        inactiveColor: Colors.grey,
+        isTranslucent: false,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.shopping_cart),
+        title: ("Shopping"),
         activeColor: Colors.indigo,
         inactiveColor: Colors.grey,
         isTranslucent: false,
