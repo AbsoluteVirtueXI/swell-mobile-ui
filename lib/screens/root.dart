@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:swell_mobile_ui/models/cart.dart';
 import 'package:swell_mobile_ui/providers/secret_provider.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
 import 'package:swell_mobile_ui/providers/user_provider.dart';
@@ -22,13 +23,20 @@ class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var api = Provider.of<ApiService>(context, listen: false);
-    return StreamProvider<User>(
-      create: (_) => api.profileStream(id),
-      catchError: (context, error) {
-        print("IN USER STREAM CATCH ERROR");
-        print(error.toString());
-      },
-      lazy: false,
+    return
+      MultiProvider(
+        providers: [
+          StreamProvider<User>(
+            create: (_) => api.profileStream(id),
+            catchError: (context, error) {
+              print("IN USER STREAM CATCH ERROR");
+              print(error.toString());
+              },
+            lazy: false,),
+          ChangeNotifierProvider<CartModel>(
+            create: (_) => CartModel(),
+          ),
+        ],
       child: MaterialApp(
         title: 'Squarrin',
         home: Squarrin(),

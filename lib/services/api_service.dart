@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:swell_mobile_ui/models/user.dart';
 import 'package:swell_mobile_ui/models/video.dart';
+import 'package:swell_mobile_ui/models/item.dart';
 
 import 'package:dio/dio.dart';
 
@@ -32,6 +34,10 @@ class ApiService {
     } else {
       return false;
     }
+  }
+
+  Future<bool> buy_items(List<Item> items) async {
+    return true;
   }
 
   Future<int> getId(String ethAddr) async {
@@ -76,6 +82,38 @@ class ApiService {
     }
   }
 
+  Future<bool> uploadItem(UploadItem video) async {
+    print("STARTING UPLOAD Item");
+    var uri = Uri.parse("${BASE_URL}/upload_item");
+    var request = http.MultipartRequest('POST', uri)
+      ..fields['owner_id'] = video.ownerId.toString()
+      ..fields['title'] = video.title
+      ..fields['bio'] = video.bio
+      ..fields['price'] = video.price.toString()
+      ..files
+          .add(await http.MultipartFile.fromPath('content', video.localPath));
+    var response = await request.send();
+    /*
+    var dio = Dio();
+    var formData = FormData.fromMap({
+      "owner_id": video.ownerId,
+      "title": video.title,
+      "bio": video.bio,
+      "price": video.price,
+      "content": await MultipartFile.fromFile(video.localPath,filename: "upload.mp4"),
+    });
+    var response = await dio.post("${BASE_URL}/upload_video", data: formData);
+
+     */
+    if (response.statusCode == 201) {
+      print("UPLOAD DONE OK");
+      return true;
+    } else {
+      print("UPLOAD FAILED");
+      return false;
+    }
+  }
+
   Stream<User> profileStream(int id) async* {
     while (true) {
       print('One api call for profile');
@@ -91,14 +129,27 @@ class ApiService {
   Stream<List<Video>> allVideoStream() async* {
     while(true) {
       print('One api call for Video Stream');
-      await Future.delayed(const Duration(seconds: 5));
       var response = await http.get('${BASE_URL}/get_all_videos');
       if(response.statusCode == 200) {
         var videos = (jsonDecode(response.body) as List).map((i) =>
             Video.fromJson(i)).toList();
         yield videos;
       }
-
+      await Future.delayed(const Duration(seconds: 5));
     }
   }
+
+  Stream<List<Item>> allItemStream() async* {
+    while(true) {
+      print('One api call for Item Stream');
+      var response = await http.get('${BASE_URL}/get_all_items');
+      if(response.statusCode == 200) {
+        var items = (jsonDecode(response.body) as List).map((i) =>
+            Item.fromJson(i)).toList();
+        yield items;
+      }
+      await Future.delayed(const Duration(seconds: 5));
+    }
+  }
+
 }
