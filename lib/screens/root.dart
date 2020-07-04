@@ -8,6 +8,7 @@ import 'package:swell_mobile_ui/screens/registration.dart';
 import 'package:swell_mobile_ui/models/user.dart';
 import 'package:swell_mobile_ui/screens/profile.dart';
 import 'package:swell_mobile_ui/screens/record_video.dart';
+import 'package:swell_mobile_ui/screens/sell.dart';
 import 'package:swell_mobile_ui/screens/search.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -54,6 +55,7 @@ class _SquarrinState extends State<Squarrin> {
       HomeScreen(),
       SearchScreen(),
       RecordScreen(),
+      SellScreen(),
       ProfileScreen(),
     ];
   }
@@ -77,6 +79,13 @@ class _SquarrinState extends State<Squarrin> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.videocam),
         title: ("Record"),
+        activeColor: Colors.deepOrange,
+        inactiveColor: Colors.grey,
+        isTranslucent: false,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.photo_camera),
+        title: ("Sell"),
         activeColor: Colors.deepOrange,
         inactiveColor: Colors.grey,
         isTranslucent: false,
@@ -108,7 +117,7 @@ class _SquarrinState extends State<Squarrin> {
       },
       navBarStyle: NavBarStyle.style7,
       // Choose the nav bar style with this property
-      itemCount: 4,
+      itemCount: 5,
       iconSize: 26.0,
     );
   }
