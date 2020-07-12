@@ -86,7 +86,7 @@ class HomeScreen extends StatelessWidget {
                               onTap: () {
                                 cart.addItem(lstItem[index]);
                               },
-                              child: ListTile(
+                              child: /*ListTile(
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(lstItem[index].path),
                                 ),
@@ -94,6 +94,53 @@ class HomeScreen extends StatelessWidget {
                                 subtitle: Text('${lstItem[index].bio}'),
                                 trailing: Icon(Icons.add_shopping_cart),
                                 dense: true,
+                              )*/
+                              Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text('${lstItem[index].owner_id}', style: TextStyle(fontWeight: FontWeight.bold)),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      IconButton(
+                                        icon: Icon(Icons.more_vert),
+                                        onPressed: () => {},
+                                      )
+                                    ],
+                                  ),
+                                  Image.network(lstItem[index].path, fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      IconButton(
+                                        padding: EdgeInsets.zero,
+                                        iconSize: 28.0,
+                                        icon: Icon(Icons.favorite_border),
+                                        onPressed: () => {},
+                                      ),
+                                      IconButton(
+                                        padding: EdgeInsets.zero,
+                                        iconSize: 28.0,
+                                        icon: Icon(Icons.chat_bubble_outline),
+                                        onPressed: () => {},
+                                      ),
+                                      IconButton(
+                                        padding: EdgeInsets.zero,
+                                        iconSize: 28.0,
+                                        icon: Icon(Icons.share),
+                                        onPressed: () => {},
+                                      ),
+                                      Spacer(),
+                                    ],
+
+                                  ),
+                                  Text('${lstItem[index].title}', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  Text('${lstItem[index].bio}', style: TextStyle(fontWeight: FontWeight.bold),),
+                                ],
                               ),
                             );
                           },

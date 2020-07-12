@@ -36,7 +36,7 @@ class ShoppingScreen extends StatelessWidget {
             ),
           ),
           Text('Price: $price'),
-          RaisedButton(child: Text('Buy'), color: Colors.redAccent,),
+          RaisedButton(child: Text('Buy'), color: Colors.redAccent, onPressed: () => {}),
         ],
       ),
     );

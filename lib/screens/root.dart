@@ -40,6 +40,7 @@ class Root extends StatelessWidget {
       child: MaterialApp(
         title: 'Squarrin',
         home: Squarrin(),
+        theme: ThemeData(fontFamily: 'Offside', primaryColor: Colors.black,  primarySwatch: Colors.blueGrey,),
       ),
     );
   }
