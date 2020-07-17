@@ -6,13 +6,15 @@ import 'package:provider/provider.dart';
 import 'package:swell_mobile_ui/models/user.dart';
 import 'package:swell_mobile_ui/models/video.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
+import 'package:swell_mobile_ui/models/product.dart';
 
 // TODO should check if register
 
 class UploadScreen extends StatelessWidget {
-  String filePath;
+  final String filePath;
+  final String media_type;
 
-  UploadScreen(this.filePath);
+  UploadScreen(this.filePath, this.media_type);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class UploadScreen extends StatelessWidget {
         child: Consumer<User>(
           builder: (context, profile, child) {
             if (profile != null) {
-              return UploadVideoForm(filePath);
+              return UploadVideoForm(filePath, media_type);
             } else {
               return CircularProgressIndicator();
             }
@@ -34,8 +36,9 @@ class UploadScreen extends StatelessWidget {
 
 class UploadVideoForm extends StatefulWidget {
   final String filePath;
+  final String media_type;
 
-  UploadVideoForm(this.filePath);
+  UploadVideoForm(this.filePath, this.media_type);
 
   @override
   UploadVideoFormState createState() => UploadVideoFormState();
@@ -44,10 +47,9 @@ class UploadVideoForm extends StatefulWidget {
 class UploadVideoFormState extends State<UploadVideoForm> {
   final _formKey = GlobalKey<FormState>();
   bool registered = false;
-  final _titleController = TextEditingController();
   final _bioController = TextEditingController();
   final _priceController = TextEditingController();
-  final _video = UploadVideo();
+  final _video = UploadProduct();
 
   @override
   Widget build(BuildContext context) {
@@ -59,20 +61,6 @@ class UploadVideoFormState extends State<UploadVideoForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              TextFormField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  hintText: 'Title',
-                  labelText: 'Enter video title',
-                  isDense: true,
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter a video title';
-                  }
-                  return null;
-                },
-              ),
               TextFormField(
                 controller: _bioController,
                 decoration: InputDecoration(
@@ -107,11 +95,12 @@ class UploadVideoFormState extends State<UploadVideoForm> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _video.localPath = widget.filePath;
-                      _video.title = _titleController.text;
-                      _video.bio = _bioController.text;
+                      _video.description = _bioController.text;
                       _video.price = int.parse(_priceController.text);
-                      _video.ownerId =
+                      _video.seller_id =
                           Provider.of<User>(context, listen: false).id;
+                      _video.media_type =  widget.media_type;
+                      _video.product_type = "REAL";
 
                       Scaffold.of(context).showSnackBar(
                           SnackBar(content: Text('upload in progress')));
@@ -127,9 +116,9 @@ class UploadVideoFormState extends State<UploadVideoForm> {
     );
   }
 
-  _upload(BuildContext context, UploadVideo video) async {
+  _upload(BuildContext context, UploadProduct product) async {
     var api = Provider.of<ApiService>(context, listen: false);
-    var res = await api.uploadVideo(video);
+    var res = await api.uploadProduct(product);
     /*Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => ProfileScreen()));*/
     Navigator.pop(context);

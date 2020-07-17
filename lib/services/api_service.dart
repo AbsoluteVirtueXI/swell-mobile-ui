@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:swell_mobile_ui/models/user.dart';
 import 'package:swell_mobile_ui/models/video.dart';
 import 'package:swell_mobile_ui/models/item.dart';
+import 'package:swell_mobile_ui/models/product.dart';
 
 import 'package:dio/dio.dart';
 
@@ -19,20 +20,21 @@ class ApiService {
     }
   }
 
-  Future<bool> register(String ethAddr, String login) async {
+  Future<User> register(String username, String ethAddress) async {
     var response = await http.post('${BASE_URL}/register',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: jsonEncode(<String, String>{
-          'login': login,
-          'eth_addr': ethAddr,
+          'username': username,
+          'eth_address': ethAddress,
         }));
 
-    if (response.statusCode == 201) {
-      return true;
-    } else {
-      return false;
+    if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
+      if (res['code'] == 200) {
+        return User.fromJson(jsonDecode(res['data']));
+      }
     }
   }
 
@@ -50,16 +52,17 @@ class ApiService {
     }
   }
 
-  Future<bool> uploadVideo(UploadVideo video) async {
+  Future<bool> uploadProduct(UploadProduct product) async {
     print("STARTING UPLOAD");
-    var uri = Uri.parse("${BASE_URL}/upload_video");
+    var uri = Uri.parse("${BASE_URL}/upload_product");
     var request = http.MultipartRequest('POST', uri)
-      ..fields['owner_id'] = video.ownerId.toString()
-      ..fields['title'] = video.title
-      ..fields['bio'] = video.bio
-      ..fields['price'] = video.price.toString()
+      ..fields['seller_id'] = product.seller_id.toString()
+      ..fields['description'] = product.description
+      ..fields['price'] = product.price.toString()
+      ..fields['media_type'] = product.media_type
+      ..fields['product_type'] = product.product_type
       ..files
-          .add(await http.MultipartFile.fromPath('content', video.localPath));
+          .add(await http.MultipartFile.fromPath('content', product.localPath));
     var response = await request.send();
     /*
     var dio = Dio();
@@ -71,7 +74,6 @@ class ApiService {
       "content": await MultipartFile.fromFile(video.localPath,filename: "upload.mp4"),
     });
     var response = await dio.post("${BASE_URL}/upload_video", data: formData);
-
      */
     if (response.statusCode == 201) {
       print("UPLOAD DONE OK");
@@ -117,12 +119,16 @@ class ApiService {
   Stream<User> profileStream(int id) async* {
     while (true) {
       print('One api call for profile');
-      await Future.delayed(const Duration(seconds: 5));
       var response = await http.get('${BASE_URL}/get_user_by_id/${id}');
       if (response.statusCode == 200) {
-        var profile = User.fromJson(jsonDecode(response.body));
-        yield profile;
+        if (response.statusCode == 200) {
+          var res = jsonDecode(response.body);
+          if (res['code'] == 200) {
+            yield User.fromJson(jsonDecode(res['data']));
+          }
+        }
       }
+      await Future.delayed(const Duration(seconds: 5));
     }
   }
 

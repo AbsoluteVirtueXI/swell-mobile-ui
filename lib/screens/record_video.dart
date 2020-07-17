@@ -10,6 +10,7 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:swell_mobile_ui/screens/upload_video.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
+import 'package:swell_mobile_ui/screens/upload_product.dart';
 
 // TODO should check if register
 
@@ -70,7 +71,7 @@ class _CameraScreenState extends State<CameraScreen> {
     // realizar un dispose para detenerlo antes de continuar
     if (_controller != null) await _controller.dispose();
     // Indicar al controlador la nueva cámara a utilizar
-    _controller = CameraController(camera, ResolutionPreset.medium);
+    _controller = CameraController(camera, ResolutionPreset.veryHigh);
     // Agregar un Listener para refrescar la pantalla en cada cambio
     _controller.addListener(() => this.setState(() {}));
     // Inicializar el controlador
@@ -100,23 +101,17 @@ class _CameraScreenState extends State<CameraScreen> {
         // Ícono para cambiar la cámara
         IconButton(
           icon: Icon(_getCameraIcon(_cameras[_cameraIndex].lensDirection)),
-          onPressed: _onSwitchCamera,
+          onPressed: _isRecording ? () => {} : _onSwitchCamera,
         ),
         // Ícono para iniciar la grabación
-        IconButton(
-          icon: Icon(Icons.radio_button_checked),
-          onPressed: _isRecording ? null : _onRecord,
+        GestureDetector(
+          child: Icon(Icons.radio_button_checked, size: 50.0, color: _isRecording ? Colors.red : Colors.white,),
+          onLongPress: () {_isRecording ? _onStop(context) :  _onRecord();},
+          onTap: () {
+            _isRecording ? _onStop(context) :_onTakePicture();
+          },
         ),
-        // Ícono para tener la grabación
-        IconButton(
-          icon: Icon(Icons.stop),
-          onPressed: _isRecording ? () => _onStop(context) : null,
-        ),
-        // Ícono para reproducir el video grabado
-        IconButton(
-          icon: Icon(Icons.play_arrow),
-          onPressed: _isRecording ? null : _onPlay,
-        ),
+
       ],
     );
   }
@@ -132,7 +127,7 @@ class _CameraScreenState extends State<CameraScreen> {
     setState(() => _isRecording = false);
     //pushNewScreen(context, screen: UploadScreen(_filePath), platformSpecific: false, withNavBar: false);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen(_filePath)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen(_filePath, "VIDEO")));
   }
 
   // Iniciar la grabación de video
@@ -145,6 +140,18 @@ class _CameraScreenState extends State<CameraScreen> {
     _controller.startVideoRecording(_filePath);
     // Actualizar la bandera de grabación
     setState(() => _isRecording = true);
+  }
+
+  Future<void> _onTakePicture() async {
+    // Obtener la dirección temporal
+    var directory = await getTemporaryDirectory();
+    // Añadir el nombre del archivo a la dirección temporal
+    _filePath = directory.path + '/${DateTime.now()}.jpg';
+    // Utilizar el controlador para iniciar la grabación
+    await _controller.takePicture(_filePath);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen(_filePath, "IMAGE")));
+    // Actualizar la bandera de grabación
+    //setState(() => _isRecording = true);
   }
 
   // Retornar el ícono de la cámara
@@ -171,9 +178,12 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        Container(height: 600, child: Center(child: _buildCamera())),
-        _buildControls(context),
+      body: Stack(
+          fit: StackFit.expand,
+          alignment: Alignment.bottomCenter,
+          children: [
+         _buildCamera(),
+        Positioned(bottom: 0 , left: 160, child: _buildControls(context)),
       ]),
     );
   }

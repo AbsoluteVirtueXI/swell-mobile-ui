@@ -22,8 +22,7 @@ Future<File> getSecretFile() async {
   return File('${path}/${SECRET_FILE}');
 }
 
-Future<bool> createSecretFile(File file) async {
-  Secret secret = await generateNewCredentials();
+Future<bool> writeSecretFile(File file, Secret secret) async {
   await file.writeAsString(jsonEncode(secret));
   return true;
 }

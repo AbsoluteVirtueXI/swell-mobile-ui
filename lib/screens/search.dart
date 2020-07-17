@@ -14,7 +14,7 @@ class SearchScreen extends StatelessWidget {
         child: Consumer<User>(
           builder: (context, profile, child) {
             if (profile != null) {
-              return Text('in Search with ${profile.login}');
+              return Text('in Search with ${profile.username}');
             } else {
               return CircularProgressIndicator();
             }

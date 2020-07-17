@@ -9,49 +9,24 @@ import 'package:swell_mobile_ui/services/secret_service.dart';
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureProvider<Secret>(
-        create: (_) async => Provider.of<SecretService>(context, listen: false).loadSecret(),
+    return FutureProvider<IsRegister>(
+        create: (_) async => Provider.of<SecretService>(context, listen: false).hasSecret(),
+        catchError: (context, error)  {
+          print("In IsRegister catchError");
+          print(error.toString());
+        },
         child: Scaffold(
             body: Center(
-              child: Consumer<Secret>(
-                  builder: (context, secret, child) {
-                    if (secret == null) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset('images/squarrin_logo.jpg',
-                              width: 600, height: 600, fit: BoxFit.cover),
-                          Text('squarrin', style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold)),
-                        ],
-                      );
+              child: Consumer<IsRegister>(
+                  builder: (context, is_register, child) {
+                    if (is_register == null) {
+                      return
+                        Text('squarrin', style: TextStyle(
+                              fontSize: 50, fontWeight: FontWeight.bold));
+                    } else if (is_register.register == true){
+                      return Root(is_register.secret.id);
                     } else {
-                      return FutureProvider<bool>(
-                          create: (context) async => await Provider.of<ApiService>(context, listen: false).get_isRegistered(secret.ethAddress),
-                          child: Consumer<bool>(
-                           builder: (context, isRegistered, child) {
-                             if (isRegistered == true) {
-                               return FutureProvider<int>(
-                                 create: (context) async => await Provider.of<ApiService>(context, listen :false).getId(secret.ethAddress),
-                                 child: Consumer<int>(
-                                   builder: (context, id, child) {
-                                     if(id == null) {
-                                       return CircularProgressIndicator();
-                                     } else {
-                                       return Root(id);
-                                     }
-                                   }
-                                 )
-                                 //Root(15); // TODO CHANGE THIS
-                               );
-                             } else if (isRegistered == false) {
-                               return RegistrationScreen(secret);
-                             } else {
-                               return CircularProgressIndicator();
-                             }
-                           }
-                          ),
-                      );
+                      return RegistrationScreen();
                     }
                   }
               ),

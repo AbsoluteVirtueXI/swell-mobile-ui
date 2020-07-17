@@ -124,7 +124,7 @@ class _CameraScreenState extends State<CameraScreen> {
     setState(() => _isRecording = false);
     //pushNewScreen(context, screen: UploadScreen(_filePath), platformSpecific: false, withNavBar: false);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen(_filePath)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen(_filePath, "image")));
   }
 
   // Iniciar la grabación de video

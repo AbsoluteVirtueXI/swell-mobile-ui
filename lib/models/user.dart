@@ -1,41 +1,83 @@
-class User {
-  int id;
-  String login;
-  String eth_addr;
-  String bio;
-  int czar;
-  List<int> videos;
-  List<int> video_bought;
-  List<int> items;
-  List<int> items_bought;
-  List<int> liked;
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    login = json['login'];
-    eth_addr = json['eth_addr'];
-    bio = json['bio'];
-    czar = json['czar'];
-    videos = json['videos'] != null ? List<int>.from(json['videos']): <int>[];
-    video_bought = json['video_bought'] != null ? List<int>.from(json['video_bought']) : <int>[];
-    items = json['videos'] != null ? List<int>.from(json['videos']): <int>[];
-    items_bought = json['video_bought'] != null ? List<int>.from(json['video_bought']) : <int>[];
-    liked = json['liked'] != null ? List<int>.from(json['liked']) : <int>[];
+import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-  }
-  User.empty() {
-    id = 0;
-    login = "";
-    eth_addr = "";
-    bio = "";
-    czar = 0;
-    videos = <int>[];
-    video_bought = <int>[];
-    items = <int>[];
-    items_bought = <int>[];
-    liked = <int>[];
-  }
+part 'user.g.dart';
+
+@JsonSerializable(createToJson: true)
+class User {
+  final int id;
+  final String username;
+  final String ethAddress;
+  final String bio;
+  final int quadreum;
+  final String avatar;
+  final DateTime createdAt;
+
+  const User({
+    @required this.id,
+    @required this.username,
+    @required this.ethAddress,
+    @required this.bio,
+    @required this.quadreum,
+    @required this.avatar,
+    @required this.createdAt,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
 class MyProfile extends User {
-  MyProfile() : super.empty();
+  MyProfile();
 }
+
+/*
+import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'user.g.dart';
+
+@JsonSerializable(createToJson: true)
+class User {
+  final int id;
+  final String username;
+  final String ethAddress;
+  final String bio;
+  final int quadreum;
+  final String avatar;
+  final int nbFollowers;
+  final int nbFollowees;
+  final DateTime createdAt;
+
+  const User({
+    @required this.id,
+    @required this.username,
+    @required this.ethAddress,
+    @required this.bio,
+    @required this.quadreum,
+    @required this.avatar,
+    @required this.nbFollowees,
+    @required this.nbFollowers,
+    @required this.createdAt,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+}
+ */
+
+/*
+return MaterialApp(
+      title: 'Squarrin',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Offside',
+        primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
+        //backgroundColor: Colors.black,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+
+      ),
+ */

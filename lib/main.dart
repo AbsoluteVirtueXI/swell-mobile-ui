@@ -27,6 +27,14 @@ class Squarrin extends StatelessWidget {
         child: MaterialApp(
           title: 'Squarrin',
           home: SplashScreen(),
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            fontFamily: 'Offside',
+            primarySwatch: Colors.blueGrey,
+            primaryColor: Colors.white,
+            //backgroundColor: Colors.black,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
           //home: Root(1),
           //home: VideoPlayerApp(),
         ));
