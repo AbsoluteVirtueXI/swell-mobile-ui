@@ -7,7 +7,7 @@ part 'feed.g.dart';
 class Feed {
   final int id;
   final int seller_id;
-  final int username;
+  final String username;
   final String avatar;
   final String product_type;
   final String description;

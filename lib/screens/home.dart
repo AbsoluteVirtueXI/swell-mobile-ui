@@ -9,6 +9,7 @@ import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:swell_mobile_ui/models/video.dart';
 import 'package:swell_mobile_ui/models/item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:swell_mobile_ui/models/feed.dart';
 
 // TODO should check if register
 
@@ -17,8 +18,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var api = Provider.of<ApiService>(context, listen: false);
     var cart = Provider.of<CartModel>(context);
+    var user = Provider.of<User>(context, listen: false);
     return
-      MultiProvider(
+        StreamProvider<List<Feed>>(
+      /*MultiProvider(
       providers: [
         StreamProvider<List<Video>>(
             create: (_) => api.allVideoStream(),
@@ -34,15 +37,28 @@ class HomeScreen extends StatelessWidget {
             print(error.toString());
           },
           lazy: false),
-      ],
-      child: Scaffold(
-        body: Center(
-          child: Consumer2<List<Video>, List<Item>>(
-            builder:(context, lstVideo, lstItem, child) {
-              if(lstVideo == null && lstItem == null) {
-                return CircularProgressIndicator();
-              } else {
-                return DefaultTabController(
+      ]*/
+          create: (_) => api.allFeedsStream(user.id),
+          catchError: (context, error) {
+            print("IN FEED CATCH ERROR");
+            print(error.toString());
+            return null;
+            },
+          lazy: false,
+          child: Scaffold(
+            body: Center(
+                child: Consumer<List<Feed>>(
+                    builder: (context, lstFeed, child) {
+                      if(lstFeed == null) {
+                        return CircularProgressIndicator();
+                      } else {
+                        return ListView.builder(
+                            itemCount: lstFeed.length,
+                            itemBuilder: (context, index){
+                              return Text('${lstFeed[index].path}');
+                            }
+                        );
+                        /*DefaultTabController(
                   length: 2,
 
                   child: Scaffold(
@@ -148,7 +164,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                );
+                );*/
               }
             }
           )

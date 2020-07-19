@@ -64,7 +64,7 @@ class _SquarrinState extends State<Squarrin> {
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 0);
+    _controller = PersistentTabController(initialIndex: 1);
   }
 
   List<Widget> _buildScreens() {

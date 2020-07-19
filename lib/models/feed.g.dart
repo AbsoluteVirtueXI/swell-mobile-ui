@@ -10,7 +10,7 @@ Feed _$FeedFromJson(Map<String, dynamic> json) {
   return Feed(
     id: json['id'] as int,
     seller_id: json['seller_id'] as int,
-    username: json['username'] as int,
+    username: json['username'] as String,
     avatar: json['avatar'] as String,
     product_type: json['product_type'] as String,
     description: json['description'] as String,
