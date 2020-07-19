@@ -99,13 +99,13 @@ class _CameraScreenState extends State<CameraScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         // Ícono para cambiar la cámara
-        IconButton(
+        /*IconButton(
           icon: Icon(_getCameraIcon(_cameras[_cameraIndex].lensDirection)),
           onPressed: _isRecording ? () => {} : _onSwitchCamera,
-        ),
+        ),*/
         // Ícono para iniciar la grabación
         GestureDetector(
-          child: Icon(Icons.radio_button_checked, size: 50.0, color: _isRecording ? Colors.red : Colors.white,),
+          child: Icon(Icons.photo_camera, size: 100.0, color: _isRecording ? Colors.red : Colors.white,),
           onLongPress: () {_isRecording ? _onStop(context) :  _onRecord();},
           onTap: () {
             _isRecording ? _onStop(context) :_onTakePicture();
@@ -183,7 +183,8 @@ class _CameraScreenState extends State<CameraScreen> {
           alignment: Alignment.bottomCenter,
           children: [
          _buildCamera(),
-        Positioned(bottom: 0 , left: 160, child: _buildControls(context)),
+        //Positioned(bottom: 0 , left: 160, child: _buildControls(context)),
+            Positioned.fill(child: Align(alignment: Alignment.bottomCenter,child: _buildControls(context)))
       ]),
     );
   }

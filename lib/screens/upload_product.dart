@@ -47,9 +47,15 @@ class UploadProductForm extends StatefulWidget {
 class UploadProductFormState extends State<UploadProductForm> {
   final _formKey = GlobalKey<FormState>();
   bool registered = false;
+  bool _isUploading = false;
   final _bioController = TextEditingController();
   final _priceController = TextEditingController();
   final _video = UploadProduct();
+
+  @override
+  void initState() {
+    _isUploading = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +97,8 @@ class UploadProductFormState extends State<UploadProductForm> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 1.0),
-                child: RaisedButton(
+                child: _isUploading ? CircularProgressIndicator() : RaisedButton(
+
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _video.localPath = widget.filePath;
@@ -105,6 +112,11 @@ class UploadProductFormState extends State<UploadProductForm> {
                       Scaffold.of(context).showSnackBar(
                           SnackBar(content: Text('upload in progress')));
                       _upload(context, _video);
+                      setState(() {
+                        _isUploading = true;
+                      });
+
+
                       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(widget.secret)));
                     }
                   },
@@ -117,10 +129,11 @@ class UploadProductFormState extends State<UploadProductForm> {
   }
 
   _upload(BuildContext context, UploadProduct product) async {
+    if(_isUploading == true) {
+      return null;
+    }
     var api = Provider.of<ApiService>(context, listen: false);
     var res = await api.uploadProduct(product);
-    /*Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => ProfileScreen()));*/
     Navigator.pop(context);
   }
 }
