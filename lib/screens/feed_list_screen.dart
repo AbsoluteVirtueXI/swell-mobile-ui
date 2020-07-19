@@ -39,7 +39,7 @@ class FeedListScreen extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       children: lstFeed.map((elem) {
-                        for (final elem in cart.items) {
+                        for (final elem in cart.feeds) {
                           if (elem.id == elem.id) {
                             return Container();
                           }

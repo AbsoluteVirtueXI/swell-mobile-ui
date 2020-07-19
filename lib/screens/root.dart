@@ -41,26 +41,34 @@ class Root extends StatelessWidget {
           ),
         ],
         child: Consumer<User>(builder: (context, user, child) {
-          return StreamProvider<List<Feed>>(
-              create: (_) => api.allFeedsStream(user.id),
-              catchError: (context, error) {
-                print("IN FEED CATCH ERROR");
-                print(error.toString());
-                return null;
-              },
-              lazy: false,
-              child: MaterialApp(
-                title: 'Squarrin',
-                home: Squarrin(),
-                theme: ThemeData(
-                  brightness: Brightness.dark,
-                  fontFamily: 'Offside',
-                  primarySwatch: Colors.blueGrey,
-                  primaryColor: Colors.white,
-                  //backgroundColor: Colors.black,
-                  visualDensity: VisualDensity.adaptivePlatformDensity,
-                ),
-              ));
+          if (user == null) {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else {
+            return StreamProvider<List<Feed>>(
+                create: (_) => api.allFeedsStream(user.id),
+                catchError: (context, error) {
+                  print("IN FEED CATCH ERROR");
+                  print(error.toString());
+                  return null;
+                },
+                lazy: false,
+                child: MaterialApp(
+                  title: 'Squarrin',
+                  home: Squarrin(),
+                  theme: ThemeData(
+                    brightness: Brightness.dark,
+                    fontFamily: 'Offside',
+                    primarySwatch: Colors.blueGrey,
+                    primaryColor: Colors.white,
+                    //backgroundColor: Colors.black,
+                    visualDensity: VisualDensity.adaptivePlatformDensity,
+                  ),
+                ));
+          }
         }));
   }
 }
