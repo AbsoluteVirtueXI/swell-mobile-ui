@@ -10,8 +10,11 @@ import 'package:swell_mobile_ui/models/video.dart';
 import 'package:swell_mobile_ui/models/item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:swell_mobile_ui/models/feed.dart';
+import 'package:swell_mobile_ui/components/image_tile.dart';
 
 // TODO should check if register
+
+const BASE_URL = 'https://api.squarrin.com';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -52,11 +55,19 @@ class HomeScreen extends StatelessWidget {
                       if(lstFeed == null) {
                         return CircularProgressIndicator();
                       } else {
-                        return ListView.builder(
-                            itemCount: lstFeed.length,
-                            itemBuilder: (context, index){
-                              return Text('${lstFeed[index].path}');
-                            }
+                        return GridView.count(
+                            crossAxisCount: 3,
+                            childAspectRatio: 1.0,
+                            mainAxisSpacing: 1.5,
+                            crossAxisSpacing: 1.5,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: lstFeed.map((elem) {
+                              //return Image.network(url, fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width);
+                              //return Image.network('${BASE_URL}/$url');
+                              return ImageTile(elem);
+                            }).toList(),
+
                         );
                         /*DefaultTabController(
                   length: 2,
