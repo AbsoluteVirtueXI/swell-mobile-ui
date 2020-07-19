@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swell_mobile_ui/models/feed.dart';
+import 'package:swell_mobile_ui/screens/preview_screen.dart';
 
 const BASE_URL = 'https://api.squarrin.com';
 
@@ -12,7 +13,9 @@ class ImageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final url = feed.media_type == "VIDEO" ? feed.thumbnail_path : feed.path;
     return GestureDetector(
-        //onTap: () => {},
+        onTap: () => {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PreviewScreen(feed)))
+        },
         child: GridTile(
 
             header: GridTileBar(

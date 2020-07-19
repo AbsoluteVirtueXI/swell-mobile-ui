@@ -4,16 +4,19 @@ import 'package:swell_mobile_ui/models/cart.dart';
 import 'package:swell_mobile_ui/providers/secret_provider.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
 import 'package:swell_mobile_ui/providers/user_provider.dart';
-import 'package:swell_mobile_ui/screens/home.dart';
 import 'package:swell_mobile_ui/screens/registration.dart';
 import 'package:swell_mobile_ui/models/user.dart';
 import 'package:swell_mobile_ui/screens/profile.dart';
 import 'package:swell_mobile_ui/screens/record_video.dart';
+import 'package:swell_mobile_ui/screens/feed_grid_screen.dart';
+import 'package:swell_mobile_ui/screens/feed_list_screen.dart';
+import 'package:swell_mobile_ui/screens/shopping.dart';
 import 'package:swell_mobile_ui/screens/sell.dart';
 import 'package:swell_mobile_ui/screens/search.dart';
 import 'package:swell_mobile_ui/screens/shopping.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:swell_mobile_ui/models/feed.dart';
 
 class Root extends StatelessWidget {
   final int id;
@@ -23,33 +26,42 @@ class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var api = Provider.of<ApiService>(context, listen: false);
-    return
-      MultiProvider(
+    return MultiProvider(
         providers: [
           StreamProvider<User>(
             create: (_) => api.profileStream(id),
             catchError: (context, error) {
               print("IN USER STREAM CATCH ERROR");
               print(error.toString());
-              },
-            lazy: false,),
+            },
+            lazy: false,
+          ),
           ChangeNotifierProvider<CartModel>(
             create: (_) => CartModel(),
           ),
         ],
-      child: MaterialApp(
-        title: 'Squarrin',
-        home: Squarrin(),
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          fontFamily: 'Offside',
-          primarySwatch: Colors.blueGrey,
-          primaryColor: Colors.white,
-          //backgroundColor: Colors.black,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-      ),
-    );
+        child: Consumer<User>(builder: (context, user, child) {
+          return StreamProvider<List<Feed>>(
+              create: (_) => api.allFeedsStream(user.id),
+              catchError: (context, error) {
+                print("IN FEED CATCH ERROR");
+                print(error.toString());
+                return null;
+              },
+              lazy: false,
+              child: MaterialApp(
+                title: 'Squarrin',
+                home: Squarrin(),
+                theme: ThemeData(
+                  brightness: Brightness.dark,
+                  fontFamily: 'Offside',
+                  primarySwatch: Colors.blueGrey,
+                  primaryColor: Colors.white,
+                  //backgroundColor: Colors.black,
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                ),
+              ));
+        }));
   }
 }
 
@@ -64,25 +76,24 @@ class _SquarrinState extends State<Squarrin> {
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 1);
+    _controller = PersistentTabController(initialIndex: 2);
   }
 
   List<Widget> _buildScreens() {
     return [
-      HomeScreen(),
-      //SearchScreen(),
+      FeedGridScreen(),
+      FeedListScreen(),
       RecordScreen(),
-      SellScreen(),
-      ProfileScreen(),
       ShoppingScreen(),
+      ProfileScreen(),
     ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        title: ("Home"),
+        icon: Icon(Icons.search),
+        title: ("Search"),
         activeColor: Colors.blue,
         inactiveColor: Colors.grey,
         isTranslucent: false,
@@ -95,23 +106,16 @@ class _SquarrinState extends State<Squarrin> {
         isTranslucent: false,
       ),*/
       PersistentBottomNavBarItem(
+        icon: Icon(Icons.rss_feed),
+        title: ("Feed"),
+        activeColor: Colors.greenAccent,
+        inactiveColor: Colors.grey,
+        isTranslucent: false,
+      ),
+      PersistentBottomNavBarItem(
         icon: Icon(Icons.videocam),
         title: ("Record"),
         activeColor: Colors.deepOrange,
-        inactiveColor: Colors.grey,
-        isTranslucent: false,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.photo_camera),
-        title: ("Sell"),
-        activeColor: Colors.deepOrange,
-        inactiveColor: Colors.grey,
-        isTranslucent: false,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.account_box),
-        title: ("Profile"),
-        activeColor: Colors.indigo,
         inactiveColor: Colors.grey,
         isTranslucent: false,
       ),
@@ -122,6 +126,13 @@ class _SquarrinState extends State<Squarrin> {
         inactiveColor: Colors.grey,
         isTranslucent: false,
       ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.account_box),
+        title: ("Profile"),
+        activeColor: Colors.indigo,
+        inactiveColor: Colors.grey,
+        isTranslucent: false,
+      )
     ];
   }
 

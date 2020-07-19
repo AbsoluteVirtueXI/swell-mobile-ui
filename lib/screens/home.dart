@@ -63,6 +63,11 @@ class HomeScreen extends StatelessWidget {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             children: lstFeed.map((elem) {
+                              for (final elem in cart.items) {
+                                if (elem.id == elem.id) {
+                                  return Container();
+                                }
+                              }
                               //return Image.network(url, fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width);
                               //return Image.network('${BASE_URL}/$url');
                               return ImageTile(elem);
