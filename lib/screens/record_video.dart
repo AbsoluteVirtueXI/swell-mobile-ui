@@ -8,7 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:swell_mobile_ui/screens/upload_video.dart';
+//import 'package:swell_mobile_ui/screens/upload_video.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:swell_mobile_ui/screens/upload_product.dart';
 
@@ -71,7 +71,7 @@ class _CameraScreenState extends State<CameraScreen> {
     // realizar un dispose para detenerlo antes de continuar
     if (_controller != null) await _controller.dispose();
     // Indicar al controlador la nueva cámara a utilizar
-    _controller = CameraController(camera, ResolutionPreset.veryHigh);
+    _controller = CameraController(camera, ResolutionPreset.low);
     // Agregar un Listener para refrescar la pantalla en cada cambio
     _controller.addListener(() => this.setState(() {}));
     // Inicializar el controlador

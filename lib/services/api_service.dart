@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'dart:convert';
 import 'package:swell_mobile_ui/models/user.dart';
 import 'package:swell_mobile_ui/models/video.dart';
@@ -53,7 +54,12 @@ class ApiService {
   }
 
   Future<bool> uploadProduct(UploadProduct product) async {
-    print("STARTING UPLOAD");
+    print("####################################STARTING UPLOAD########################################@");
+    print("${product.seller_id}");
+    print("${product.price}");
+    print("${product.localPath}");
+    print("${product.media_type}");
+    print("${product.product_type}");
     var uri = Uri.parse("${BASE_URL}/upload_product");
     var request = http.MultipartRequest('POST', uri)
       ..fields['seller_id'] = product.seller_id.toString()
@@ -63,7 +69,9 @@ class ApiService {
       ..fields['product_type'] = product.product_type
       ..files
           .add(await http.MultipartFile.fromPath('content', product.localPath));
+    request.headers.addAll({HttpHeaders.authorizationHeader: "${product.seller_id}"});
     var response = await request.send();
+    print(response.statusCode);
     /*
     var dio = Dio();
     var formData = FormData.fromMap({
