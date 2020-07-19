@@ -31,7 +31,7 @@ class UploadProduct {
   String localPath;
   String media_type;
   String product_type;
-  UploadVideo() {
+  UploadProduct() {
     seller_id = 0;
     description = "";
     price = 0;

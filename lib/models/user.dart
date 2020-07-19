@@ -7,20 +7,20 @@ part 'user.g.dart';
 class User {
   final int id;
   final String username;
-  final String ethAddress;
+  final String eth_address;
   final String bio;
   final int quadreum;
   final String avatar;
-  final DateTime createdAt;
+  final DateTime created_at;
 
   const User({
     @required this.id,
     @required this.username,
-    @required this.ethAddress,
+    @required this.eth_address,
     @required this.bio,
     @required this.quadreum,
     @required this.avatar,
-    @required this.createdAt,
+    @required this.created_at,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
