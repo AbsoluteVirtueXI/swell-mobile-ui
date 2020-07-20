@@ -20,148 +20,41 @@ class FeedGridScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var api = Provider.of<ApiService>(context, listen: false);
-    var cart = Provider.of<CartModel>(context);
+    //var cart = Provider.of<CartModel>(context, listen: true);
     var user = Provider.of<User>(context, listen: false);
     var feeds = Provider.of<List<Feed>>(context, listen: true);
     return
-      Scaffold(
-        body: Center(
-            child: Consumer<List<Feed>>(
-                builder: (context, lstFeed, child) {
-                  if(lstFeed == null) {
-                    return CircularProgressIndicator();
-                  } else {
-                    return GridView.count(
-                      crossAxisCount: 3,
-                      childAspectRatio: 1.0,
-                      mainAxisSpacing: 1.5,
-                      crossAxisSpacing: 1.5,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: lstFeed.map((elem) {
-                        for (final elem in cart.feeds) {
-                          if (elem.id == elem.id) {
-                            return Container();
-                          }
-                        }
-                        //return Image.network(url, fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width);
-                        //return Image.network('${BASE_URL}/$url');
-                        return ImageTile(elem);
-                      }).toList(),
-
-                    );
-                    /*DefaultTabController(
-                length: 2,
-
-                child: Scaffold(
-                  appBar: AppBar(
-                    bottom: TabBar(
-                      tabs: [
-                        Tab(icon: Icon(Icons.videocam)),
-                        Tab(icon: Icon(Icons.shopping_cart)),
-                      ],
-                    ),
-                  ),
-                  body: TabBarView(
-                    children: [GridView.count(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 4.0,
-                      crossAxisSpacing: 4.0,
-                      children: lstVideo.map((elem) {
-                        return GridTile(
-                          child: InkResponse(
-                            child: Center(child: Column(
-                              children: <Widget>[
-                                Text(elem.title, style: Theme.of(context).textTheme.headline5),
-                                Text("${elem.price} CZAR", style: Theme.of(context).textTheme.headline6)
-                              ],
-                            ), ),
-                            onTap: () => Navigator.of(context)
-                                .push(MaterialPageRoute(
-                                builder: (context) => VideoPlayerScreen(elem.path))),),
-                        );
-                      }).toList(growable: true)
-                      ,),
-                      ListView.builder(
-                        itemCount: lstItem.length,
-                        itemBuilder: (context, index){
-                          for (final elem in cart.items) {
-                            if (lstItem[index].id == elem.id) {
+      Consumer<CartModel>(
+        builder: (context, cart, child) {
+          return Scaffold(
+            body: Center(
+                child: Consumer<List<Feed>>(
+                    builder: (context, lstFeed, child) {
+                      if (lstFeed == null) {
+                        return CircularProgressIndicator();
+                      } else {
+                        return GridView.count(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1.0,
+                          mainAxisSpacing: 1.5,
+                          crossAxisSpacing: 1.5,
+                          shrinkWrap: true,
+                          //physics: const NeverScrollableScrollPhysics(),
+                          children: lstFeed.map((elem) {
+                            if (cart.hasItem(elem)) {
                               return Container();
+                            } else {
+                              return ImageTile(elem);
                             }
-                          }
-                          return GestureDetector(
-                            onTap: () {
-                              cart.addItem(lstItem[index]);
-                            },
-                            child: /*ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage: NetworkImage(lstItem[index].path),
-                              ),
-                              title: Text('${lstItem[index].title} \t\t\t\t ${lstItem[index].price} Quadreum'),
-                              subtitle: Text('${lstItem[index].bio}'),
-                              trailing: Icon(Icons.add_shopping_cart),
-                              dense: true,
-                            )*/
-                            Column(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text('${lstItem[index].owner_id}', style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    IconButton(
-                                      icon: Icon(Icons.more_vert),
-                                      onPressed: () => {},
-                                    )
-                                  ],
-                                ),
-                                Image.network(lstItem[index].path, fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    IconButton(
-                                      padding: EdgeInsets.zero,
-                                      iconSize: 28.0,
-                                      icon: Icon(Icons.favorite_border),
-                                      onPressed: () => {},
-                                    ),
-                                    IconButton(
-                                      padding: EdgeInsets.zero,
-                                      iconSize: 28.0,
-                                      icon: Icon(Icons.chat_bubble_outline),
-                                      onPressed: () => {},
-                                    ),
-                                    IconButton(
-                                      padding: EdgeInsets.zero,
-                                      iconSize: 28.0,
-                                      icon: Icon(Icons.share),
-                                      onPressed: () => {},
-                                    ),
-                                    Spacer(),
-                                  ],
+                          }).toList(),
 
-                                ),
-                                Text('${lstItem[index].title}', style: TextStyle(fontWeight: FontWeight.bold),),
-                                Text('${lstItem[index].bio}', style: TextStyle(fontWeight: FontWeight.bold),),
-                              ],
-                            ),
-                          );
-                        },
-                        ),
-                    ],
-                  ),
-                ),
-              );*/
-                  }
-                }
-            )
-        ),
-      );
+                        );
+                      }
+                    }
+                )
+            ),
+          );
+        });
     /*
     return Scaffold(
       body: Center(

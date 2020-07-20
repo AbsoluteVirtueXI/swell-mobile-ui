@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:swell_mobile_ui/models/cart.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 
+const BASE_URL = 'https://api.squarrin.com';
+
 
 class ShoppingScreen extends StatelessWidget {
   @override
@@ -24,7 +26,7 @@ class ShoppingScreen extends StatelessWidget {
                   },
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: NetworkImage(cart.feeds[index].path),
+                      backgroundImage: cart.feeds[index].media_type == "IMAGE" ? NetworkImage("$BASE_URL/${cart.feeds[index].path}") : NetworkImage("$BASE_URL/${cart.feeds[index].thumbnail_path}"),
                     ),
                     title: Text('${cart.feeds[index].description} \t\t\t\t ${cart.feeds[index].price} Quadreum'),
                     subtitle: Text('${cart.feeds[index].description}'),

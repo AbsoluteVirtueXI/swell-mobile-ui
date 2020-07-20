@@ -20,4 +20,13 @@ class CartModel extends ChangeNotifier {
     feeds.remove(feed);
     notifyListeners();
   }
+
+  bool hasItem(Feed feed) {
+    for (final elem in feeds) {
+      if (feed.id == elem.id) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
