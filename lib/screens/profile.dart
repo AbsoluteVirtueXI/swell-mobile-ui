@@ -6,7 +6,7 @@ import 'package:swell_mobile_ui/models/feedme.dart';
 import 'package:swell_mobile_ui/screens/home.dart';
 import 'package:swell_mobile_ui/screens/registration.dart';
 import 'package:swell_mobile_ui/models/user.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
+//import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:swell_mobile_ui/components/image_tile.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 

@@ -12,6 +12,7 @@ import 'package:swell_mobile_ui/models/item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:swell_mobile_ui/models/feed.dart';
 import 'package:swell_mobile_ui/components/image_tile.dart';
+import 'package:swell_mobile_ui/screens/messages_screen.dart';
 
 // TODO should check if register
 
@@ -24,29 +25,31 @@ class FeedListScreen extends StatelessWidget {
     //var cart = Provider.of<CartModel>(context, listen: true);
     var user = Provider.of<User>(context, listen: false);
     var feeds = Provider.of<List<Feed>>(context, listen: true);
-    return
-      Consumer<CartModel>(
-          builder: (context, cart, child) {
-            return Scaffold(
-              body: Center(
-                  child: Consumer<List<Feed>>(
-                      builder: (context, lstFeed, child) {
-                        if (lstFeed == null) {
-                          return CircularProgressIndicator();
-                        } else {
-                          return ListView.builder(
-                            itemCount: lstFeed.length,
-                            itemBuilder: (context, index){
-                              for (final elem in cart.feeds) {
-                                if (lstFeed[index].id == elem.id) {
-                                  return Container();
-                                }
-                              }
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PreviewScreen(lstFeed[index])));
-                                },
-                                child: /*ListTile(
+    return Consumer<CartModel>(builder: (context, cart, child) {
+      return Scaffold(
+        body: Center(
+            child: Consumer<List<Feed>>(builder: (context, lstFeed, child) {
+          if (lstFeed == null) {
+            return CircularProgressIndicator();
+          } else {
+            return ListView.builder(
+              itemCount: lstFeed.length,
+              itemBuilder: (context, index) {
+                for (final elem in cart.feeds) {
+                  if (lstFeed[index].id == elem.id) {
+                    return Container();
+                  }
+                }
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PreviewScreen(lstFeed[index])));
+                  },
+                  child:
+                      /*ListTile(
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(lstItem[index].path),
                                 ),
@@ -55,77 +58,100 @@ class FeedListScreen extends StatelessWidget {
                                 trailing: Icon(Icons.add_shopping_cart),
                                 dense: true,
                               )*/
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                            width: 50.0,
-                                            height: 50.0,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(80.0),
-                                              image: DecorationImage(
-                                                  image: lstFeed[index].avatar.isEmpty
-                                                      ? AssetImage('images/no_image.png')
-                                                      : NetworkImage(lstFeed[index].avatar),
-                                                  fit: BoxFit.cover),
-                                            )),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text('${lstFeed[index].username}', style: TextStyle(fontWeight: FontWeight.bold)),
-                                          ],
-                                        ),
-                                        Spacer(),
-                                        IconButton(
-                                          icon: Icon(Icons.more_vert),
-                                          onPressed: () => {},
-                                        )
-                                      ],
-                                    ),
-                                    lstFeed[index].media_type == "IMAGE" ?
-                                    Image.network("${BASE_URL}/${lstFeed[index].path}", fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width) :
-                                    Image.network("${BASE_URL}/${lstFeed[index].thumbnail_path}", fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        IconButton(
-                                          padding: EdgeInsets.zero,
-                                          iconSize: 28.0,
-                                          icon: Icon(Icons.favorite_border),
-                                          onPressed: () => {},
-                                        ),
-                                        IconButton(
-                                          padding: EdgeInsets.zero,
-                                          iconSize: 28.0,
-                                          icon: Icon(Icons.chat_bubble_outline),
-                                          onPressed: () => {},
-                                        ),
-                                        IconButton(
-                                          padding: EdgeInsets.zero,
-                                          iconSize: 28.0,
-                                          icon: Icon(Icons.share),
-                                          onPressed: () => {},
-                                        ),
-                                        Spacer(),
-                                      ],
-
-                                    ),
-                                    Text('${lstFeed[index].description}', style: TextStyle(fontWeight: FontWeight.bold),),
-                                    Text('${lstFeed[index].created_at.toString().substring(0, 19)}'),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                                    ),
-                                  ],
-                                ),
-                              );
+                      Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                              width: 50.0,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80.0),
+                                image: DecorationImage(
+                                    image: lstFeed[index].avatar.isEmpty
+                                        ? AssetImage('images/no_image.png')
+                                        : NetworkImage(lstFeed[index].avatar),
+                                    fit: BoxFit.cover),
+                              )),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.0),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('${lstFeed[index].username}',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          Spacer(),
+                          IconButton(
+                            icon: Icon(Icons.more_vert),
+                            onPressed: () => {},
+                          )
+                        ],
+                      ),
+                      lstFeed[index].media_type == "IMAGE"
+                          ? Image.network("${BASE_URL}/${lstFeed[index].path}",
+                              fit: BoxFit.fitWidth,
+                              width: MediaQuery.of(context).size.width)
+                          : Image.network(
+                              "${BASE_URL}/${lstFeed[index].thumbnail_path}",
+                              fit: BoxFit.fitWidth,
+                              width: MediaQuery.of(context).size.width),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            iconSize: 28.0,
+                            icon: Icon(Icons.favorite_border),
+                            onPressed: () => {},
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            iconSize: 28.0,
+                            icon: Icon(Icons.chat_bubble_outline),
+                            onPressed: () => {
+                              if (user.id != feeds[index].seller_id)
+                                {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MessagesScreen(
+                                                user.id,
+                                                feeds[index].avatar,
+                                                feeds[index].username,
+                                                feeds[index].seller_id,
+                                              )))
+                                }
                             },
-                          );
-                          /*DefaultTabController(
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            iconSize: 28.0,
+                            icon: Icon(Icons.share),
+                            onPressed: () => {},
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                      Text(
+                        '${lstFeed[index].description}',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                          '${lstFeed[index].created_at.toString().substring(0, 19)}'),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+            /*DefaultTabController(
                   length: 2,
 
                   child: Scaffold(
@@ -232,11 +258,9 @@ class FeedListScreen extends StatelessWidget {
                     ),
                   ),
                 );*/
-                        }
-                      }
-                  )
-              ),
-            );
-          });
+          }
+        })),
+      );
+    });
   }
 }

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 //import 'package:swell_mobile_ui/screens/upload_video.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
+//import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:swell_mobile_ui/screens/upload_product.dart';
 
 // TODO should check if register

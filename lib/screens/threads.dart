@@ -59,6 +59,7 @@ class ThreadsScreen extends StatelessWidget {
                                 ],
                               ),
                               subtitle: Text("${threads[index].content}", overflow: TextOverflow.ellipsis,),
+                              trailing: Icon(Icons.keyboard_arrow_right),
                           ),
                         );
                           //Text("${threads[index].content}");

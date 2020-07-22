@@ -107,7 +107,6 @@ class _SquarrinState extends State<Squarrin> {
         title: ("Search"),
         activeColor: Colors.blue,
         inactiveColor: Colors.grey,
-        isTranslucent: false,
       ),
       /*PersistentBottomNavBarItem(
         icon: Icon(Icons.search),
@@ -121,28 +120,24 @@ class _SquarrinState extends State<Squarrin> {
         title: ("Feed"),
         activeColor: Colors.greenAccent,
         inactiveColor: Colors.grey,
-        isTranslucent: false,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.videocam),
         title: ("Record"),
         activeColor: Colors.deepOrange,
         inactiveColor: Colors.grey,
-        isTranslucent: false,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.message),
         title: ("Messages"),
         activeColor: Colors.indigo,
         inactiveColor: Colors.grey,
-        isTranslucent: false,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.account_box),
         title: ("Profile"),
         activeColor: Colors.indigo,
         inactiveColor: Colors.grey,
-        isTranslucent: false,
       )
     ];
   }
@@ -150,6 +145,8 @@ class _SquarrinState extends State<Squarrin> {
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
+      resizeToAvoidBottomInset: true,
+      hideNavigationBarWhenKeyboardShows: true,
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),

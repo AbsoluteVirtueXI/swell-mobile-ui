@@ -9,6 +9,9 @@ import 'package:swell_mobile_ui/models/product.dart';
 import 'package:swell_mobile_ui/models/feed.dart';
 import 'package:swell_mobile_ui/models/feedme.dart';
 import 'package:swell_mobile_ui/models/thread.dart';
+import 'package:swell_mobile_ui/models/message.dart';
+import 'package:swell_mobile_ui/models/send_message.dart';
+
 
 import 'package:dio/dio.dart';
 
@@ -72,7 +75,7 @@ class ApiService {
       ..fields['product_type'] = product.product_type
       ..files
           .add(await http.MultipartFile.fromPath('content', product.localPath));
-    request.headers.addAll({HttpHeaders.authorizationHeader: "${product.seller_id}"});
+    request.headers.addAll({'Authorization': "${product.seller_id}"});
     print("################################SENDING UPLOAD REQUEST##########################################");
     var response = await request.send();
     print("###########################SENDING UPLOAD DONE#############################");
@@ -218,6 +221,46 @@ class ApiService {
     }
   }
 
-  //Stream<List<Message>> allMessageStream(int token, int message)
+  Stream<List<Message>> allMessageStream(int token, int other) async* {
+    while(true) {
+      print('one api call for message stream for user ${token} and user ${other}');
+      var response = await http.post('${BASE_URL}/get_all_messages',
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': '${token}'
+          },
+          body: jsonEncode(<String, int>{
+            'user1': token,
+            'user2': other,
+          }));
+      if(response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        if(res['code'] == 200) {
+          var messages = (jsonDecode(res['data']) as List).map((i) => Message.fromJson(i)).toList();
+          yield messages;
+        }
+      }
+      await Future.delayed(const Duration(seconds: 3));
+    }
+  }
+
+  Future<bool> sendMessage(int token, int otherId, String content) async {
+      var response = await http.post('${BASE_URL}/send_message',
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': '${token}'
+          },
+          body: jsonEncode(<String, dynamic>{
+            'receiver': otherId,
+            'content': content,
+          }));
+
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        if (res['code'] == 200) {
+          print("###########################MESSAGE SENT#############");
+        }
+      }
+    }
 
 }
