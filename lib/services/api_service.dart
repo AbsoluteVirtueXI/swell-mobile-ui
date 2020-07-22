@@ -8,6 +8,7 @@ import 'package:swell_mobile_ui/models/item.dart';
 import 'package:swell_mobile_ui/models/product.dart';
 import 'package:swell_mobile_ui/models/feed.dart';
 import 'package:swell_mobile_ui/models/feedme.dart';
+import 'package:swell_mobile_ui/models/thread.dart';
 
 import 'package:dio/dio.dart';
 
@@ -72,8 +73,11 @@ class ApiService {
       ..files
           .add(await http.MultipartFile.fromPath('content', product.localPath));
     request.headers.addAll({HttpHeaders.authorizationHeader: "${product.seller_id}"});
+    print("################################SENDING UPLOAD REQUEST##########################################");
     var response = await request.send();
+    print("###########################SENDING UPLOAD DONE#############################");
     print(response.statusCode);
+    print("#########################################STATUS CODE ABOVE######################################");
     /*
     var dio = Dio();
     var formData = FormData.fromMap({
@@ -184,7 +188,7 @@ class ApiService {
     }
   }
 
-  Stream<List<Feedme>> allMyFeedStream(int token) async * {
+  Stream<List<Feedme>> allMyFeedStream(int token) async* {
     while(true) {
       print('one api call for Feed Stream');
       var response = await http.get('${BASE_URL}/get_my_products_feed', headers: {'Authorization': '${token}'});
@@ -198,5 +202,22 @@ class ApiService {
       await Future.delayed(const Duration(seconds: 5));
     }
   }
+
+  Stream<List<Thread>> allThreadStream(int token) async* {
+    while(true) {
+      print('one api call for thread stream for user ${token}');
+      var response = await http.get('${BASE_URL}/get_my_threads', headers: {'Authorization': '${token}'});
+      if(response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        if(res['code'] == 200) {
+          var threads = (jsonDecode(res['data']) as List).map((i) => Thread.fromJson(i)).toList();
+          yield threads;
+        }
+      }
+      await Future.delayed(const Duration(seconds: 3));
+    }
+  }
+
+  //Stream<List<Message>> allMessageStream(int token, int message)
 
 }

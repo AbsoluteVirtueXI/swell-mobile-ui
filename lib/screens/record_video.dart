@@ -71,7 +71,7 @@ class _CameraScreenState extends State<CameraScreen> {
     // realizar un dispose para detenerlo antes de continuar
     if (_controller != null) await _controller.dispose();
     // Indicar al controlador la nueva cámara a utilizar
-    _controller = CameraController(camera, ResolutionPreset.low);
+    _controller = CameraController(camera, ResolutionPreset.medium);
     // Agregar un Listener para refrescar la pantalla en cada cambio
     _controller.addListener(() => this.setState(() {}));
     // Inicializar el controlador

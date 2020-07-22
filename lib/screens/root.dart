@@ -11,12 +11,14 @@ import 'package:swell_mobile_ui/screens/record_video.dart';
 import 'package:swell_mobile_ui/screens/feed_grid_screen.dart';
 import 'package:swell_mobile_ui/screens/feed_list_screen.dart';
 import 'package:swell_mobile_ui/screens/shopping.dart';
+import 'package:swell_mobile_ui/screens/threads.dart';
 import 'package:swell_mobile_ui/screens/sell.dart';
 import 'package:swell_mobile_ui/screens/search.dart';
 import 'package:swell_mobile_ui/screens/shopping.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:swell_mobile_ui/models/feed.dart';
+
 
 class Root extends StatelessWidget {
   final int id;
@@ -92,7 +94,8 @@ class _SquarrinState extends State<Squarrin> {
       FeedGridScreen(),
       FeedListScreen(),
       RecordScreen(),
-      ShoppingScreen(),
+      ThreadsScreen(),
+      //ShoppingScreen(),
       ProfileScreen(),
     ];
   }
@@ -128,8 +131,8 @@ class _SquarrinState extends State<Squarrin> {
         isTranslucent: false,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.shopping_cart),
-        title: ("Shopping"),
+        icon: Icon(Icons.message),
+        title: ("Messages"),
         activeColor: Colors.indigo,
         inactiveColor: Colors.grey,
         isTranslucent: false,
