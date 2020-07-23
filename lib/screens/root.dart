@@ -67,6 +67,7 @@ class Root extends StatelessWidget {
                     primarySwatch: Colors.blueGrey,
                     primaryColor: Colors.white,
                     //backgroundColor: Colors.black,
+                    scaffoldBackgroundColor: Colors.black,
                     visualDensity: VisualDensity.adaptivePlatformDensity,
                   ),
                 ));

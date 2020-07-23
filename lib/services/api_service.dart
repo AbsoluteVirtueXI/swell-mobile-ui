@@ -11,6 +11,7 @@ import 'package:swell_mobile_ui/models/feedme.dart';
 import 'package:swell_mobile_ui/models/thread.dart';
 import 'package:swell_mobile_ui/models/message.dart';
 import 'package:swell_mobile_ui/models/send_message.dart';
+import 'package:http_parser/http_parser.dart';
 
 
 import 'package:dio/dio.dart';
@@ -60,6 +61,50 @@ class ApiService {
   }
 
   Future<bool> uploadProduct(UploadProduct product) async {
+    /*
+    print("####################################STARTING UPLOAD########################################@");
+    print("${product.seller_id}");
+    print("${product.price}");
+    print("${product.localPath}");
+    print("${product.media_type}");
+    print("${product.product_type}");
+    Dio dio = new Dio();
+    dio.options.baseUrl = "${BASE_URL}";
+    dio.options.headers["Authorization"] = "${product.seller_id}";
+
+    FormData formData = new FormData.fromMap({
+      'seller_id': product.seller_id.toString(),
+      'description': product.description,
+      'price' : product.price.toString(),
+      'media_type': product.media_type,
+      'product_type': product.product_type,
+      'content':
+      await MultipartFile.fromFile(
+          product.localPath,
+          filename: product.localPath.split("/").last,
+          contentType: product.media_type == "IMAGE" ? new MediaType("image", "jpg") : new MediaType("video", "mp4"),
+      ),
+    });
+    var t = await formData.readAsBytes();
+
+    print("################################SENDING UPLOAD REQUEST##########################################");
+    var response = await dio.post("/upload_product", data: formData, options: Options(
+      headers: {
+        Headers.contentLengthHeader: t.length, // set content-length
+      },
+    ));
+    print("###########################SENDING UPLOAD DONE#############################");
+    print(response.statusCode);
+    print("#########################################STATUS CODE ABOVE######################################");
+    if (response.statusCode == 201) {
+      print("UPLOAD DONE OK");
+      return true;
+    } else {
+      print("UPLOAD FAILED");
+      return false;
+    }
+     */
+
     print("####################################STARTING UPLOAD########################################@");
     print("${product.seller_id}");
     print("${product.price}");
@@ -75,6 +120,7 @@ class ApiService {
       ..fields['product_type'] = product.product_type
       ..files
           .add(await http.MultipartFile.fromPath('content', product.localPath));
+    print("THE LENGTH OF THE request body is: ${request.contentLength}");
     request.headers.addAll({'Authorization': "${product.seller_id}"});
     print("################################SENDING UPLOAD REQUEST##########################################");
     var response = await request.send();

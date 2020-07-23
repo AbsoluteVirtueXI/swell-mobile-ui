@@ -24,7 +24,12 @@ class PreviewScreen extends StatelessWidget {
           fit: StackFit.expand,
           alignment: Alignment.bottomCenter,
           children: <Widget>[
-            Center(child: feed.media_type == "VIDEO" ? VideoPlayerScreen('$BASE_URL/${feed.path}') : FittedBox(alignment: Alignment.center, child: Image.network('$BASE_URL/${feed.path}', fit: BoxFit.fill), fit: BoxFit.fill)),
+            Center(child: feed.media_type == "VIDEO" ? VideoPlayerScreen('$BASE_URL/${feed.path}') :
+            Scaffold(body: OverflowBox(
+                minWidth: 0.0,
+                minHeight: 0.0,
+                maxWidth: double.infinity,
+                child: FittedBox(child: Image.network('$BASE_URL/${feed.path}'), fit: BoxFit.fill)))) ,
             Positioned.fill(
                 child: Align(alignment: Alignment.bottomCenter,
                   child: IconButton(icon: Icon(Icons.shopping_cart),iconSize: 50.0, onPressed: ()  {
@@ -67,13 +72,12 @@ class PreviewScreenMe extends StatelessWidget {
           fit: StackFit.expand,
           alignment: Alignment.bottomCenter,
           children: <Widget>[
-            Center(child: feed.media_type == "VIDEO" ? VideoPlayerScreen('$BASE_URL/${feed.path}') : FittedBox(alignment: Alignment.center, child: Image.network('$BASE_URL/${feed.path}', fit: BoxFit.fill), fit: BoxFit.fill)),
-            /*Positioned.fill(
-                child: Align(alignment: Alignment.bottomCenter,
-                  child: IconButton(icon: Icon(Icons.shopping_cart),iconSize: 50.0, onPressed: ()  {
-                    cart.addItem(feed);
-                    Navigator.pop(context);
-                  }),)),*/
+            Center(child: feed.media_type == "VIDEO" ? VideoPlayerScreen('$BASE_URL/${feed.path}') :
+            Scaffold(body: OverflowBox(
+                minWidth: 0.0,
+                minHeight: 0.0,
+                maxWidth: double.infinity,
+                child: FittedBox(child: Image.network('$BASE_URL/${feed.path}'), fit: BoxFit.fill)))) ,
             Positioned.fill(
                 child: Align(alignment: Alignment.topCenter,
                   child: Column(

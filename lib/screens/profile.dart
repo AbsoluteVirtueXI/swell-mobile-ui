@@ -4,6 +4,7 @@ import 'package:swell_mobile_ui/providers/secret_provider.dart';
 import 'package:swell_mobile_ui/models/secret.dart';
 import 'package:swell_mobile_ui/models/feedme.dart';
 import 'package:swell_mobile_ui/screens/home.dart';
+import 'package:swell_mobile_ui/screens/shopping.dart';
 import 'package:swell_mobile_ui/screens/registration.dart';
 import 'package:swell_mobile_ui/models/user.dart';
 //import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
@@ -50,7 +51,9 @@ class ProfileScreen extends StatelessWidget {
                                 children: <Widget>[
                                   detailsWidget(
                                       profile.quadreum.toString(), 'Quadreum'),
+                                  Padding(padding: EdgeInsets.symmetric(horizontal: 5.0),),
                                   detailsWidget("0".toString(), 'followers'),
+                                  Padding(padding: EdgeInsets.symmetric(horizontal: 5.0),),
                                   detailsWidget("0".toString(), 'following')
                                 ]),
                             GestureDetector(
@@ -71,7 +74,19 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {},
-                            )
+                            ),
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              iconSize: 30.0,
+                              icon: Icon(Icons.shopping_cart),
+                              onPressed: () => {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ShoppingScreen()))
+
+                              },
+                            ),
                           ],
                         ))
                   ],
