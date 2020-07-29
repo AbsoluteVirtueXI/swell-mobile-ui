@@ -9,6 +9,9 @@ import 'package:swell_mobile_ui/models/profile.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:swell_mobile_ui/screens/shopping.dart';
 import 'package:swell_mobile_ui/screens/messages_screen.dart';
+import 'package:swell_mobile_ui/screens/followers_screen.dart';
+import 'package:swell_mobile_ui/screens/followees_screen.dart';
+
 
 import 'package:swell_mobile_ui/models/feedme.dart';
 import 'package:swell_mobile_ui/components/image_tile.dart';
@@ -208,11 +211,25 @@ Widget Padder(Profile profile, User user, context) {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5.0),
                           ),
-                          detailsWidget(followers.length.toString(), 'followers'),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => FollowersScreen(
+                                      profile.id
+                                    )));
+                              },
+                              child: detailsWidget(followers.length.toString(), 'followers')),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5.0),
                           ),
-                          detailsWidget(followees.length.toString(), 'following')
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => FolloweesScreen(
+                                      profile.id
+                                    )));
+                              },
+                              child: detailsWidget(followees.length.toString(), 'following'))
                         ]),
                     user.id == profile.id ?
                     GestureDetector(
