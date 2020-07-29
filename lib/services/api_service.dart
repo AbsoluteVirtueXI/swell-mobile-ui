@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:swell_mobile_ui/models/followee.dart';
+import 'package:swell_mobile_ui/models/follower.dart';
 import 'dart:convert';
 import 'package:swell_mobile_ui/models/user.dart';
+import 'package:swell_mobile_ui/models/profile.dart';
 import 'package:swell_mobile_ui/models/video.dart';
 import 'package:swell_mobile_ui/models/item.dart';
 import 'package:swell_mobile_ui/models/product.dart';
@@ -195,6 +198,19 @@ class ApiService {
     }
   }
 
+  Stream<Profile> getProfileById(int id) async* {
+    while(true) {
+      var response = await http.get('${BASE_URL}/get_user_by_id/${id}');
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        if (res['code'] == 200) {
+          yield Profile.fromJson(jsonDecode(res['data']));
+        }
+      }
+      await Future.delayed(const Duration(seconds: 5));
+    }
+  }
+
   Stream<List<Video>> allVideoStream() async* {
     while(true) {
       print('One api call for Video Stream');
@@ -264,6 +280,53 @@ class ApiService {
         }
       }
       await Future.delayed(const Duration(seconds: 3));
+    }
+  }
+
+  Stream<List<Follower>> followersStream(int token, int user_id) async* {
+    while(true) {
+      var response = await http.get('${BASE_URL}/followers/${user_id}', headers: {'Authorization': '${token}'});
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        if(res['code'] == 200) {
+          var followers = (jsonDecode(res['data']) as List).map((i) => Follower.fromJson(i)).toList();
+          yield followers;
+        }
+      }
+      await Future.delayed(const Duration(seconds: 3));
+    }
+  }
+
+  Stream<List<Followee>> followeesStream(int token, int user_id) async* {
+    while(true) {
+      var response = await http.get('${BASE_URL}/followees/${user_id}', headers: {'Authorization': '${token}'});
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        if(res['code'] == 200) {
+          var followees = (jsonDecode(res['data']) as List).map((i) => Followee.fromJson(i)).toList();
+          yield followees;
+        }
+      }
+      await Future.delayed(const Duration(seconds: 3));
+    }
+  }
+
+  Future<bool> follow(int token, int user_id) async {
+    var response = await http.get('${BASE_URL}/follow/${user_id}',headers: {'Authorization': '${token}'});
+    if(response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  Future<bool> unfollow(int token, int user_id) async {
+    var response = await http.get('${BASE_URL}/unfollow/${user_id}',headers: {'Authorization': '${token}'});
+    if(response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
     }
   }
 

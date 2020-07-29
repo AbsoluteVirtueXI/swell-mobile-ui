@@ -13,6 +13,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:swell_mobile_ui/models/feed.dart';
 import 'package:swell_mobile_ui/components/image_tile.dart';
 import 'package:swell_mobile_ui/screens/messages_screen.dart';
+import 'package:swell_mobile_ui/components/profile.dart';
 
 // TODO should check if register
 
@@ -61,36 +62,46 @@ class FeedListScreen extends StatelessWidget {
                       Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                              width: 50.0,
-                              height: 50.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80.0),
-                                image: DecorationImage(
-                                    image: lstFeed[index].avatar.isEmpty
-                                        ? AssetImage('images/no_image.png')
-                                        : NetworkImage(lstFeed[index].avatar),
-                                    fit: BoxFit.cover),
-                              )),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.0),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text('${lstFeed[index].username}',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                          Spacer(),
-                          IconButton(
-                            icon: Icon(Icons.more_vert),
-                            onPressed: () => {},
-                          )
-                        ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ProfileWidget(lstFeed[index].seller_id)
+                              ));
+                        },
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                                width: 50.0,
+                                height: 50.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(80.0),
+                                  image: DecorationImage(
+                                      image: lstFeed[index].avatar.isEmpty
+                                          ? AssetImage('images/no_image.png')
+                                          : NetworkImage(lstFeed[index].avatar),
+                                      fit: BoxFit.cover),
+                                )),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.0),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text('${lstFeed[index].username}',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            Spacer(),
+                            IconButton(
+                              icon: Icon(Icons.more_vert),
+                              onPressed: () => {},
+                            )
+                          ],
+                        ),
                       ),
                       lstFeed[index].media_type == "IMAGE"
                           ? Image.network("${BASE_URL}/${lstFeed[index].path}",

@@ -18,6 +18,7 @@ import 'package:swell_mobile_ui/screens/shopping.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:swell_mobile_ui/models/feed.dart';
+import 'package:swell_mobile_ui/components/profile.dart';
 
 
 class Root extends StatelessWidget {
@@ -90,14 +91,14 @@ class _SquarrinState extends State<Squarrin> {
     _controller = PersistentTabController(initialIndex: 2);
   }
 
-  List<Widget> _buildScreens() {
+  List<Widget> _buildScreens(id) {
     return [
       FeedGridScreen(),
       FeedListScreen(),
       RecordScreen(),
       ThreadsScreen(),
       //ShoppingScreen(),
-      ProfileScreen(),
+      ProfileWidget(id),
     ];
   }
 
@@ -145,11 +146,12 @@ class _SquarrinState extends State<Squarrin> {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<User>(context, listen: true);
     return PersistentTabView(
       resizeToAvoidBottomInset: true,
       hideNavigationBarWhenKeyboardShows: true,
       controller: _controller,
-      screens: _buildScreens(),
+      screens: _buildScreens(user.id),
       items: _navBarsItems(),
       // Redundant here but defined to demonstrate for other than custom style
       confineInSafeArea: true,

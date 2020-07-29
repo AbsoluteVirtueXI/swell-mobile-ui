@@ -4,6 +4,8 @@ import 'package:swell_mobile_ui/models/thread.dart';
 import 'package:swell_mobile_ui/models/user.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
 import 'package:swell_mobile_ui/screens/messages_screen.dart';
+import 'package:swell_mobile_ui/components/profile.dart';
+
 
 
 const BASE_URL = 'https://api.squarrin.com';
@@ -48,8 +50,18 @@ class ThreadsScreen extends StatelessWidget {
                                 )));
                           },
                           child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage: threads[index].avatar.isEmpty ? AssetImage('images/no_image.png') : NetworkImage("$BASE_URL/${threads[index].avatar}"),
+                              leading: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProfileWidget(threads[index].id)
+                                      ));
+                                },
+                                child: CircleAvatar(
+                                  backgroundImage: threads[index].avatar.isEmpty ? AssetImage('images/no_image.png') : NetworkImage("$BASE_URL/${threads[index].avatar}"),
+                                ),
                               ),
                               title: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

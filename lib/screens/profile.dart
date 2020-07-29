@@ -176,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
             );
           } else {
             print('profile is null');
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),
