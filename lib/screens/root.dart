@@ -147,25 +147,37 @@ class _SquarrinState extends State<Squarrin> {
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<User>(context, listen: true);
-    return PersistentTabView(
-      resizeToAvoidBottomInset: true,
-      hideNavigationBarWhenKeyboardShows: true,
-      controller: _controller,
-      screens: _buildScreens(user.id),
-      items: _navBarsItems(),
-      // Redundant here but defined to demonstrate for other than custom style
-      confineInSafeArea: true,
-      backgroundColor: Colors.white,
-      handleAndroidBackButtonPress: true,
-      onItemSelected: (index) {
-        setState(() {
-          print(index);
-        }); // This is required to update the nav bar if Android back button is pressed
-      },
-      navBarStyle: NavBarStyle.style7,
-      // Choose the nav bar style with this property
-      itemCount: 5,
-      iconSize: 26.0,
+    var _pageController = PageController(
+      initialPage: 2
+    );
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: PageView(
+          physics: BouncingScrollPhysics(),
+          children: _buildScreens(user.id),
+          controller: _pageController,
+        ),
+      /*PersistentTabView(
+        //bottomScreenMargin: 0,
+        resizeToAvoidBottomInset: true,
+        hideNavigationBarWhenKeyboardShows: true,
+        controller: _controller,
+        screens: _buildScreens(user.id),
+        items: _navBarsItems(),
+        // Redundant here but defined to demonstrate for other than custom style
+        confineInSafeArea: true,
+        backgroundColor: Colors.white,
+        handleAndroidBackButtonPress: true,
+        onItemSelected: (index) {
+          setState(() {
+            print(index);
+          }); // This is required to update the nav bar if Android back button is pressed
+        },
+        navBarStyle: NavBarStyle.style7,
+        // Choose the nav bar style with this property
+        itemCount: 5,
+        iconSize: 26.0,
+      ),*/
     );
   }
 }

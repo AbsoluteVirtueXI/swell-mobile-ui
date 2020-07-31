@@ -16,7 +16,6 @@ import 'package:swell_mobile_ui/models/message.dart';
 import 'package:swell_mobile_ui/models/send_message.dart';
 import 'package:http_parser/http_parser.dart';
 
-
 import 'package:dio/dio.dart';
 
 const BASE_URL = 'https://api.squarrin.com';
@@ -108,7 +107,8 @@ class ApiService {
     }
      */
 
-    print("####################################STARTING UPLOAD########################################@");
+    print(
+        "####################################STARTING UPLOAD########################################@");
     print("${product.seller_id}");
     print("${product.price}");
     print("${product.localPath}");
@@ -125,11 +125,14 @@ class ApiService {
           .add(await http.MultipartFile.fromPath('content', product.localPath));
     print("THE LENGTH OF THE request body is: ${request.contentLength}");
     request.headers.addAll({'Authorization': "${product.seller_id}"});
-    print("################################SENDING UPLOAD REQUEST##########################################");
+    print(
+        "################################SENDING UPLOAD REQUEST##########################################");
     var response = await request.send();
-    print("###########################SENDING UPLOAD DONE#############################");
+    print(
+        "###########################SENDING UPLOAD DONE#############################");
     print(response.statusCode);
-    print("#########################################STATUS CODE ABOVE######################################");
+    print(
+        "#########################################STATUS CODE ABOVE######################################");
     /*
     var dio = Dio();
     var formData = FormData.fromMap({
@@ -199,7 +202,7 @@ class ApiService {
   }
 
   Stream<Profile> getProfileById(int id) async* {
-    while(true) {
+    while (true) {
       var response = await http.get('${BASE_URL}/get_user_by_id/${id}');
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
@@ -212,12 +215,13 @@ class ApiService {
   }
 
   Stream<List<Video>> allVideoStream() async* {
-    while(true) {
+    while (true) {
       print('One api call for Video Stream');
       var response = await http.get('${BASE_URL}/get_all_videos');
-      if(response.statusCode == 200) {
-        var videos = (jsonDecode(response.body) as List).map((i) =>
-            Video.fromJson(i)).toList();
+      if (response.statusCode == 200) {
+        var videos = (jsonDecode(response.body) as List)
+            .map((i) => Video.fromJson(i))
+            .toList();
         yield videos;
       }
       await Future.delayed(const Duration(seconds: 5));
@@ -225,12 +229,13 @@ class ApiService {
   }
 
   Stream<List<Item>> allItemStream() async* {
-    while(true) {
+    while (true) {
       print('One api call for Item Stream');
       var response = await http.get('${BASE_URL}/get_all_items');
-      if(response.statusCode == 200) {
-        var items = (jsonDecode(response.body) as List).map((i) =>
-            Item.fromJson(i)).toList();
+      if (response.statusCode == 200) {
+        var items = (jsonDecode(response.body) as List)
+            .map((i) => Item.fromJson(i))
+            .toList();
         yield items;
       }
       await Future.delayed(const Duration(seconds: 5));
@@ -238,13 +243,16 @@ class ApiService {
   }
 
   Stream<List<Feed>> allFeedsStream(int token) async* {
-    while(true) {
+    while (true) {
       print('one api call for Feed Stream');
-      var response = await http.get('${BASE_URL}/get_products_feed', headers: {'Authorization': '${token}'});
+      var response = await http.get('${BASE_URL}/get_products_feed',
+          headers: {'Authorization': '${token}'});
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
         if (res['code'] == 200) {
-          var feeds = (jsonDecode(res['data']) as List).map((i) => Feed.fromJson(i)).toList();
+          var feeds = (jsonDecode(res['data']) as List)
+              .map((i) => Feed.fromJson(i))
+              .toList();
           yield feeds;
         }
       }
@@ -254,13 +262,16 @@ class ApiService {
   }
 
   Stream<List<Feedme>> allMyFeedStream(int token) async* {
-    while(true) {
+    while (true) {
       print('one api call for Feed Stream');
-      var response = await http.get('${BASE_URL}/get_my_products_feed', headers: {'Authorization': '${token}'});
+      var response = await http.get('${BASE_URL}/get_my_products_feed',
+          headers: {'Authorization': '${token}'});
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
         if (res['code'] == 200) {
-          var feeds = (jsonDecode(res['data']) as List).map((i) => Feedme.fromJson(i)).toList();
+          var feeds = (jsonDecode(res['data']) as List)
+              .map((i) => Feedme.fromJson(i))
+              .toList();
           yield feeds;
         }
       }
@@ -269,13 +280,16 @@ class ApiService {
   }
 
   Stream<List<Thread>> allThreadStream(int token) async* {
-    while(true) {
+    while (true) {
       print('one api call for thread stream for user ${token}');
-      var response = await http.get('${BASE_URL}/get_my_threads', headers: {'Authorization': '${token}'});
-      if(response.statusCode == 200) {
+      var response = await http.get('${BASE_URL}/get_my_threads',
+          headers: {'Authorization': '${token}'});
+      if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
-        if(res['code'] == 200) {
-          var threads = (jsonDecode(res['data']) as List).map((i) => Thread.fromJson(i)).toList();
+        if (res['code'] == 200) {
+          var threads = (jsonDecode(res['data']) as List)
+              .map((i) => Thread.fromJson(i))
+              .toList();
           yield threads;
         }
       }
@@ -284,12 +298,15 @@ class ApiService {
   }
 
   Stream<List<Follower>> followersStream(int token, int user_id) async* {
-    while(true) {
-      var response = await http.get('${BASE_URL}/followers/${user_id}', headers: {'Authorization': '${token}'});
+    while (true) {
+      var response = await http.get('${BASE_URL}/followers/${user_id}',
+          headers: {'Authorization': '${token}'});
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
-        if(res['code'] == 200) {
-          var followers = (jsonDecode(res['data']) as List).map((i) => Follower.fromJson(i)).toList();
+        if (res['code'] == 200) {
+          var followers = (jsonDecode(res['data']) as List)
+              .map((i) => Follower.fromJson(i))
+              .toList();
           yield followers;
         }
       }
@@ -298,12 +315,15 @@ class ApiService {
   }
 
   Stream<List<Followee>> followeesStream(int token, int user_id) async* {
-    while(true) {
-      var response = await http.get('${BASE_URL}/followees/${user_id}', headers: {'Authorization': '${token}'});
+    while (true) {
+      var response = await http.get('${BASE_URL}/followees/${user_id}',
+          headers: {'Authorization': '${token}'});
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
-        if(res['code'] == 200) {
-          var followees = (jsonDecode(res['data']) as List).map((i) => Followee.fromJson(i)).toList();
+        if (res['code'] == 200) {
+          var followees = (jsonDecode(res['data']) as List)
+              .map((i) => Followee.fromJson(i))
+              .toList();
           yield followees;
         }
       }
@@ -312,18 +332,19 @@ class ApiService {
   }
 
   Future<bool> follow(int token, int user_id) async {
-    var response = await http.get('${BASE_URL}/follow/${user_id}',headers: {'Authorization': '${token}'});
-    if(response.statusCode == 201) {
+    var response = await http.get('${BASE_URL}/follow/${user_id}',
+        headers: {'Authorization': '${token}'});
+    if (response.statusCode == 201) {
       return true;
     } else {
       return false;
     }
-
   }
 
   Future<bool> unfollow(int token, int user_id) async {
-    var response = await http.get('${BASE_URL}/unfollow/${user_id}',headers: {'Authorization': '${token}'});
-    if(response.statusCode == 201) {
+    var response = await http.get('${BASE_URL}/unfollow/${user_id}',
+        headers: {'Authorization': '${token}'});
+    if (response.statusCode == 201) {
       return true;
     } else {
       return false;
@@ -331,8 +352,9 @@ class ApiService {
   }
 
   Stream<List<Message>> allMessageStream(int token, int other) async* {
-    while(true) {
-      print('one api call for message stream for user ${token} and user ${other}');
+    while (true) {
+      print(
+          'one api call for message stream for user ${token} and user ${other}');
       var response = await http.post('${BASE_URL}/get_all_messages',
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -342,10 +364,12 @@ class ApiService {
             'user1': token,
             'user2': other,
           }));
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
-        if(res['code'] == 200) {
-          var messages = (jsonDecode(res['data']) as List).map((i) => Message.fromJson(i)).toList();
+        if (res['code'] == 200) {
+          var messages = (jsonDecode(res['data']) as List)
+              .map((i) => Message.fromJson(i))
+              .toList();
           yield messages;
         }
       }
@@ -354,22 +378,43 @@ class ApiService {
   }
 
   Future<bool> sendMessage(int token, int otherId, String content) async {
-      var response = await http.post('${BASE_URL}/send_message',
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': '${token}'
-          },
-          body: jsonEncode(<String, dynamic>{
-            'receiver': otherId,
-            'content': content,
-          }));
+    var response = await http.post('${BASE_URL}/send_message',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': '${token}'
+        },
+        body: jsonEncode(<String, dynamic>{
+          'receiver': otherId,
+          'content': content,
+        }));
 
-      if (response.statusCode == 200) {
-        var res = jsonDecode(response.body);
-        if (res['code'] == 200) {
-          print("###########################MESSAGE SENT#############");
-        }
+    if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
+      if (res['code'] == 200) {
+        print("###########################MESSAGE SENT#############");
       }
     }
+  }
 
+  Future<List<User>> search(int token, String query) async {
+    print("IN SEARCH FUNCTION");
+    print("REQUEST FOR USER: ${token}, QUERY: ${query}");
+    var response = await http.post('${BASE_URL}/search',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': '${token}'
+        },
+        body: jsonEncode(<String, dynamic>{'pattern': query}));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print("SEARCH RESPONSE OK");
+      var res = jsonDecode(response.body);
+      if (res['code'] == 200) {
+        var users = (jsonDecode(res['data']) as List)
+            .map((i) => User.fromJson(i))
+            .toList();
+        return users;
+      }
+    }
+  }
 }

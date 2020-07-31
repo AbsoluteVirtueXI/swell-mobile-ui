@@ -16,6 +16,7 @@ class SplashScreen extends StatelessWidget {
           print(error.toString());
         },
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Center(
               child: Consumer<IsRegister>(
                   builder: (context, is_register, child) {
