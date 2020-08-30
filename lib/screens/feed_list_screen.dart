@@ -28,6 +28,10 @@ class FeedListScreen extends StatelessWidget {
     var feeds = Provider.of<List<Feed>>(context, listen: true);
     return Consumer<CartModel>(builder: (context, cart, child) {
       return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            centerTitle: true,
+            title: Text("SQUARRIN", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Krona', color: Colors.white),),),
         body: Center(
             child: Consumer<List<Feed>>(builder: (context, lstFeed, child) {
           if (lstFeed == null) {
@@ -81,7 +85,7 @@ class FeedListScreen extends StatelessWidget {
                                   image: DecorationImage(
                                       image: lstFeed[index].avatar.isEmpty
                                           ? AssetImage('images/no_image.png')
-                                          : NetworkImage(lstFeed[index].avatar),
+                                          : NetworkImage('${BASE_URL}/${lstFeed[index].avatar}'),
                                       fit: BoxFit.cover),
                                 )),
                             Padding(

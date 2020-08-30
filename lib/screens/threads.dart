@@ -25,7 +25,9 @@ class ThreadsScreen extends StatelessWidget {
         },
         lazy: false,
         child: Scaffold(
-            appBar: AppBar(title: Text("Messages"), centerTitle: true,),
+            appBar: AppBar(
+              backgroundColor: Colors.black,
+              title: Text(" SQUARRIN CHAT", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Krona', color: Colors.white) ), centerTitle: true,),
             body: Consumer<List<Thread>>(builder: (context, threads, child) {
               if (threads == null) {
                 return Center(child: CircularProgressIndicator());

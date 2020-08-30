@@ -64,12 +64,15 @@ class Root extends StatelessWidget {
                   home: Squarrin(),
                   theme: ThemeData(
                     brightness: Brightness.dark,
-                    fontFamily: 'Offside',
+                    fontFamily: 'Roboto',
                     primarySwatch: Colors.blueGrey,
                     primaryColor: Colors.white,
                     //backgroundColor: Colors.black,
                     scaffoldBackgroundColor: Colors.black,
                     visualDensity: VisualDensity.adaptivePlatformDensity,
+                    buttonTheme: ButtonThemeData(
+                        buttonColor: Colors.cyanAccent
+                    ),
                   ),
                 ));
           }

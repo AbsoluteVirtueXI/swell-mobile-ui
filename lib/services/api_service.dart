@@ -153,6 +153,40 @@ class ApiService {
     }
   }
 
+  Future<bool> updateProfile(int token, String avatar, String bio) async {
+
+    print(
+        "####################################STARTING UPDATE########################################@");
+    print("avatar: ${avatar}");
+
+
+
+    print("bio: ${bio}");
+    var uri = Uri.parse("${BASE_URL}/upload_profile");
+    var request = http.MultipartRequest('POST', uri)
+      ..fields['id'] = '${token}'
+      ..fields['bio'] = bio
+      ..files
+          .add(await http.MultipartFile.fromPath('avatar', avatar));
+    request.headers.addAll({'Authorization': "${token}"});
+    print(
+        "################################SENDING UPDATE REQUEST##########################################");
+    var response = await request.send();
+    print(
+        "###########################SENDING UPDATE DONE#############################");
+    print(response.statusCode);
+    print(
+        "#########################################STATUS CODE ABOVE######################################");
+
+    if (response.statusCode == 200) {
+      print("UPLOAD DONE OK");
+      return true;
+    } else {
+      print("UPLOAD FAILED");
+      return false;
+    }
+  }
+
   Future<bool> uploadItem(UploadItem video) async {
     print("STARTING UPLOAD Item");
     var uri = Uri.parse("${BASE_URL}/upload_item");

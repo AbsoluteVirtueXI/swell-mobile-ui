@@ -15,6 +15,10 @@ import 'package:swell_mobile_ui/screens/followees_screen.dart';
 
 import 'package:swell_mobile_ui/models/feedme.dart';
 import 'package:swell_mobile_ui/components/image_tile.dart';
+import 'package:swell_mobile_ui/screens/edit_profile_screen.dart';
+
+const BASE_URL = 'https://api.squarrin.com';
+
 
 class ProfileWidget extends StatelessWidget {
   final int user_id;
@@ -24,7 +28,12 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var api = Provider.of<ApiService>(context, listen: false);
-    return Scaffold(body: Consumer<User>(builder: (context, user, child) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          centerTitle: true,
+          title: Text("MY SQUARRIN", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Krona', color: Colors.white),),),
+        body: Consumer<User>(builder: (context, user, child) {
       if (user != null) {
         return StreamProvider<Profile>(
             create: (_) => api.getProfileById(user_id),
@@ -51,7 +60,7 @@ class ProfileWidget extends StatelessWidget {
                                 image: DecorationImage(
                                     image: profile.avatar.isEmpty
                                         ? AssetImage('images/no_image.png')
-                                        : NetworkImage(profile.avatar),
+                                        : NetworkImage("${BASE_URL}/${profile.avatar}"),
                                     fit: BoxFit.cover),
                               )),
                         ),
@@ -240,16 +249,19 @@ Widget Padder(Profile profile, User user, context) {
                           width: 210.0,
                           height: 30.0,
                           decoration: BoxDecoration(
-                              color: Colors.blueGrey,
+                              color: Colors.cyanAccent,
                               borderRadius: BorderRadius.circular(4.0),
                               border: Border.all(color: Colors.grey)),
                           child: Center(
                             child: Text('Edit Profile',
-                                style: TextStyle(color: Colors.black)),
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => EditProfileScreen(user)));
+                      },
                     ) : GestureDetector(
                       child: Padding(
                         padding:

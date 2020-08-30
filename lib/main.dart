@@ -29,12 +29,15 @@ class Squarrin extends StatelessWidget {
           home: SplashScreen(),
           theme: ThemeData(
             brightness: Brightness.dark,
-            //fontFamily: 'Offside',
+            fontFamily: 'Roboto',
             primarySwatch: Colors.blueGrey,
             primaryColor: Colors.white,
             scaffoldBackgroundColor: Colors.black,
             //backgroundColor: Colors.black,
             visualDensity: VisualDensity.adaptivePlatformDensity,
+            buttonTheme: ButtonThemeData(
+              buttonColor: Colors.red
+            ),
           ),
           //home: Root(1),
           //home: VideoPlayerApp(),

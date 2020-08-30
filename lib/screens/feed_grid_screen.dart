@@ -29,11 +29,12 @@ class FeedGridScreen extends StatelessWidget {
       return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Colors.black,
           centerTitle: true,
-          title: Text("Squarrin"),
+          title: Text("SQUARRIN TV", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Krona', color: Colors.white),),
           actions: <Widget>[
             IconButton(
+              color: Colors.white,
               icon: Icon(Icons.search),
               onPressed: () {
                 showSearch(context: context, delegate: UserSearch());

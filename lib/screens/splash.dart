@@ -22,8 +22,8 @@ class SplashScreen extends StatelessWidget {
                   builder: (context, is_register, child) {
                     if (is_register == null) {
                       return
-                        Text('squarrin', style: TextStyle(
-                              fontSize: 50, fontWeight: FontWeight.bold));
+                        Text('SQUARRIN', style: TextStyle(
+                            fontSize: 50, fontWeight: FontWeight.bold, fontFamily: 'Krona'),);
                     } else if (is_register.register == true){
                       return Root(is_register.secret.id);
                     } else {

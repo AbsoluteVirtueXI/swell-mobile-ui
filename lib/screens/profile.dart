@@ -10,6 +10,8 @@ import 'package:swell_mobile_ui/models/user.dart';
 //import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:swell_mobile_ui/components/image_tile.dart';
 import 'package:swell_mobile_ui/services/api_service.dart';
+import 'package:swell_mobile_ui/screens/edit_profile_screen.dart';
+
 
 
 class ProfileScreen extends StatelessWidget {
@@ -68,12 +70,17 @@ class ProfileScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(4.0),
                                       border: Border.all(color: Colors.grey)),
                                   child: Center(
-                                    child: Text('Edit Profile',
+                                    child: Text('Edit Profile wesh',
                                         style: TextStyle(color: Colors.black)),
                                   ),
                                 ),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditProfileScreen(profile)));
+                              },
                             ),
                             IconButton(
                               padding: EdgeInsets.zero,
