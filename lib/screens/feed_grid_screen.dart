@@ -73,6 +73,12 @@ class UserSearch extends SearchDelegate<String> {
   @override
   String get searchFieldLabel => 'Search';
 
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context);
+  }
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [

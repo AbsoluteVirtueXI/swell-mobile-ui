@@ -66,7 +66,7 @@ class Root extends StatelessWidget {
                     brightness: Brightness.dark,
                     fontFamily: 'Roboto',
                     primarySwatch: Colors.blueGrey,
-                    primaryColor: Colors.white,
+                    primaryColor: Colors.black,
                     //backgroundColor: Colors.black,
                     scaffoldBackgroundColor: Colors.black,
                     visualDensity: VisualDensity.adaptivePlatformDensity,
