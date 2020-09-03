@@ -14,9 +14,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 class TakePictureScreen extends StatefulWidget {
-  Function(String) callback;
+  final Function(String) callback;
+
   TakePictureScreen(this.callback);
 
   @override
@@ -27,6 +27,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
   PickedFile _imageFile;
   dynamic _pickImageError;
   bool isVideo = false;
+  bool isDone = false;
   VideoPlayerController _controller;
   VideoPlayerController _toBeDisposed;
   String _retrieveDataError;
@@ -58,43 +59,48 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
     }
   }
 
+  Future<void> _getPictureProfile({BuildContext context}) async {
+    isVideo = false;
+    await _onImageButtonPressed(ImageSource.camera, context: context);
+
+  }
+
   void _onImageButtonPressed(ImageSource source, {BuildContext context}) async {
     if (_controller != null) {
       await _controller.setVolume(0.0);
     }
     if (isVideo) {
       final PickedFile file = await _picker.getVideo(
-          source: source, maxDuration: const Duration(seconds: 10));
+          source: source, maxDuration: const Duration(seconds: 3600));
       await _playVideo(file);
     } else {
-      await _displayPickImageDialog(context,
-              (double maxWidth, double maxHeight, int quality) async {
-            try {
-              final pickedFile = await _picker.getImage(
-                source: source,
-                maxWidth: maxWidth,
-                maxHeight: maxHeight,
-                imageQuality: quality,
-              );
-              var directory = await getTemporaryDirectory();
-              var pathDir = directory.path;
-              var filename = basename(pickedFile.path);
-              final String fileExtension = extension(pickedFile.path);
-              final File localImage =  File(pickedFile.path);
-              final File tmp = await localImage.copy('${pathDir}/${filename}');
-              var tmpPath = tmp.path;
-              print("${tmpPath.toString()}");
-              setState(() {
-                _imageFile = pickedFile;
-                widget.callback('${pathDir}/${filename}');
-                Navigator.pop(context);
-              });
-            } catch (e) {
-              setState(() {
-                _pickImageError = e;
-              });
-            }
-          });
+      try {
+        final pickedFile = await _picker.getImage(
+          source: source,
+          maxWidth: null,
+          maxHeight: null,
+          imageQuality: null,
+        );
+        isDone = true;
+        var directory = await getTemporaryDirectory();
+        var pathDir = directory.path;
+        var filename = basename(pickedFile.path);
+        final String fileExtension = extension(pickedFile.path);
+        final File localImage = File(pickedFile.path);
+        final File tmp = await localImage.copy('${pathDir}/${filename}');
+        var tmpPath = tmp.path;
+        print("${tmpPath.toString()}");
+        isDone = true;
+        setState(() {
+          _imageFile = pickedFile;
+          widget.callback('${pathDir}/${filename}');
+          Navigator.pop(context);
+        });
+      } catch (e) {
+        setState(() {
+          _pickImageError = e;
+        });
+      }
     }
   }
 
@@ -150,7 +156,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
       if (kIsWeb) {
         // Why network?
         // See https://pub.dev/packages/image_picker#getting-ready-for-the-web-platform
-       // widget.callback(_imageFile.path);
+        // widget.callback(_imageFile.path);
         return Image.network(_imageFile.path);
       } else {
         //widget.callback(_imageFile.path);
@@ -193,51 +199,56 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile picture'),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        title: Text(
+          "Profile Picture",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Krona',
+              color: Colors.white),
+        ),
       ),
       body: Center(
-        child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+        child: !kIsWeb //&& defaultTargetPlatform == TargetPlatform.android
             ? FutureBuilder<void>(
-          future: retrieveLostData(),
-          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.waiting:
-                return const Text(
-                  'You have not yet picked an image.',
-                  textAlign: TextAlign.center,
-                );
-              case ConnectionState.done:
-                return isVideo ? _previewVideo() : _previewImage();
-              default:
-                if (snapshot.hasError) {
-                  return Text(
-                    'Pick image/video error: ${snapshot.error}}',
-                    textAlign: TextAlign.center,
-                  );
-                } else {
-                  return const Text(
-                    'You have not yet picked an image.',
-                    textAlign: TextAlign.center,
-                  );
-                }
-            }
-          },
-        )
+                future: retrieveLostData(),
+                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      if (!isDone ) {
+                      return FutureBuilder<void>(
+                        future: _getPictureProfile(context: context),
+                        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                          return Container();
+                        }
+                          );} else {
+                        return Container();
+                      }
+                      return Container();
+                    case ConnectionState.done:
+                      return isVideo ? _previewVideo() : _previewImage();
+                    default:
+                      if (snapshot.hasError) {
+                        return Text(
+                          'Pick image/video error: ${snapshot.error}}',
+                          textAlign: TextAlign.center,
+                        );
+                      } else {
+                        return const Text(
+                          'You have not yet picked an image.',
+                          textAlign: TextAlign.center,
+                        );
+                      }
+                  }
+                },
+              )
             : (isVideo ? _previewVideo() : _previewImage()),
       ),
-      floatingActionButton: Column(
+      /*floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FloatingActionButton(
-            onPressed: () {
-              isVideo = false;
-              _onImageButtonPressed(ImageSource.gallery, context: context);
-            },
-            heroTag: 'image0',
-            tooltip: 'Pick Image from gallery',
-            child: const Icon(Icons.photo_library),
-          ),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: FloatingActionButton(
@@ -256,19 +267,6 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
               backgroundColor: Colors.red,
               onPressed: () {
                 isVideo = true;
-                _onImageButtonPressed(ImageSource.gallery);
-              },
-              heroTag: 'video0',
-              tooltip: 'Pick Video from gallery',
-              child: const Icon(Icons.video_library),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: FloatingActionButton(
-              backgroundColor: Colors.red,
-              onPressed: () {
-                isVideo = true;
                 _onImageButtonPressed(ImageSource.camera);
               },
               heroTag: 'video1',
@@ -277,7 +275,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
             ),
           ),
         ],
-      ),
+      )*/
     );
   }
 
@@ -303,19 +301,19 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
                   controller: maxWidthController,
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   decoration:
-                  InputDecoration(hintText: "Enter maxWidth if desired"),
+                      InputDecoration(hintText: "Enter maxWidth if desired"),
                 ),
                 TextField(
                   controller: maxHeightController,
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   decoration:
-                  InputDecoration(hintText: "Enter maxHeight if desired"),
+                      InputDecoration(hintText: "Enter maxHeight if desired"),
                 ),
                 TextField(
                   controller: qualityController,
                   keyboardType: TextInputType.number,
                   decoration:
-                  InputDecoration(hintText: "Enter quality if desired"),
+                      InputDecoration(hintText: "Enter quality if desired"),
                 ),
               ],
             ),
@@ -370,6 +368,7 @@ class AspectRatioVideoState extends State<AspectRatioVideo> {
     if (initialized != controller.value.initialized) {
       initialized = controller.value.initialized;
       setState(() {});
+
     }
   }
 

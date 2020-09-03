@@ -16,6 +16,7 @@ import 'package:swell_mobile_ui/screens/followees_screen.dart';
 import 'package:swell_mobile_ui/models/feedme.dart';
 import 'package:swell_mobile_ui/components/image_tile.dart';
 import 'package:swell_mobile_ui/screens/edit_profile_screen.dart';
+import 'package:polygon_clipper/polygon_clipper.dart';  // Import package for ClipPolygon
 
 const BASE_URL = 'https://api.squarrin.com';
 
@@ -47,50 +48,41 @@ class ProfileWidget extends StatelessWidget {
               if (profile != null) {
                 return ListView(
                   children: <Widget>[
-                    Row(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0, left: 20.0),
-                          child: Container(
-                              width: 110.0,
-                              height: 110.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80.0),
-                                image: DecorationImage(
-                                    image: profile.avatar.isEmpty
-                                        ? AssetImage('images/no_image.png')
-                                        : NetworkImage("${BASE_URL}/${profile.avatar}"),
-                                    fit: BoxFit.cover),
-                              )),
+                          padding: const EdgeInsets.only( bottom: 30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(profile.username,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30.0)),
+                           profile.bio.isNotEmpty
+                                    ? Text(profile.bio)
+                                    : Container(),
+                            ],
+                          ),
                         ),
+                        Container(
+                            width: 150.0,
+                            height: 150.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(80.0),
+                              image: DecorationImage(
+                                  image: profile.avatar.isEmpty
+                                      ? AssetImage('images/no_image.png')
+                                      : NetworkImage("${BASE_URL}/${profile.avatar}"),
+                                  fit: BoxFit.cover),
+                            )),
                         Padder(profile, user, context),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25.0, top: 30.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(profile.username,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0)),
-                          Text(profile.eth_address,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 10.0))
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25.0, top: 10.0),
-                      child: profile.bio.isNotEmpty
-                          ? Text(profile.bio)
-                          : Container(),
-                    ),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: Divider(),
@@ -210,7 +202,7 @@ Widget Padder(Profile profile, User user, context) {
               }
             }
             return Padding(
-                padding: const EdgeInsets.only(top: 8.0),
+                padding: const EdgeInsets.only(top: 20.0),
                 child: Column(
                   children: <Widget>[
                     Row(

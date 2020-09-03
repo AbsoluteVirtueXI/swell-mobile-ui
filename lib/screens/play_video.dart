@@ -69,7 +69,19 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               // Use the VideoPlayer widget to display the video.
               child: VideoPlayer(_controller),
             );*/
-            return VideoPlayer(_controller);
+            final size = MediaQuery.of(context).size;
+            var scale = _controller.value.aspectRatio / size.aspectRatio;
+            if (_controller.value.aspectRatio < size.aspectRatio) {
+              scale = 1 / scale;
+            }
+            return Transform.scale(
+              scale: scale,
+              child: Center(
+                child: AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller)),
+              ),
+            );
           } else {
             // If the VideoPlayerController is still initializing, show a
             // loading spinner.

@@ -49,16 +49,19 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Edit profile"), centerTitle: true,),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        title: Text("Edit Profile", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Krona', color: Colors.white),),),
       body: Form(
           key: _formKey,
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            //mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _avatarPath.startsWith('https') ? Image.network(_avatarPath) : Image.asset(_avatarPath) ,
-              RaisedButton(child: Text("Change picutre"), onPressed: (){
+              _avatarPath.startsWith('https') ? Image.network(_avatarPath, height: 200, width: 200,) : Image.asset(_avatarPath, height: 200, width: 200,) ,
+              RaisedButton(child: Text("Change picture"), onPressed: (){
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => TakePictureScreen(callback)));
               },),

@@ -84,12 +84,22 @@ class _CameraScreenState extends State<CameraScreen> {
     // desplegar un mensaje al usuario y evitar mostrar una cámara sin inicializar
     if (_controller == null || !_controller.value.isInitialized)
       return Center(child: Text('Loading...'));
+    final size = MediaQuery.of(context).size;
+    var scale = _controller.value.aspectRatio / size.aspectRatio;
+    if (_controller.value.aspectRatio < size.aspectRatio) {
+      scale = 1 / scale;
+    }
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
-    return AspectRatio(
-      // Solicitar la relación alto/ancho al controlador
-      aspectRatio: _controller.value.aspectRatio,
-      // Mostrar el contenido del controlador mediante el Widget CameraPreview
-      child: CameraPreview(_controller),
+    return Transform.scale(
+      scale: scale,
+      child: Center(
+        child: AspectRatio(
+          // Solicitar la relación alto/ancho al controlador
+          aspectRatio: _controller.value.aspectRatio,
+          // Mostrar el contenido del controlador mediante el Widget CameraPreview
+          child: CameraPreview(_controller),
+        ),
+      ),
     );
   }
 
@@ -132,6 +142,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
   // Iniciar la grabación de video
   Future<void> _onRecord() async {
+
     // Obtener la dirección temporal
     var directory = await getTemporaryDirectory();
     // Añadir el nombre del archivo a la dirección temporal
@@ -144,6 +155,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
   Future<void> _onTakePicture() async {
     // Obtener la dirección temporal
+
     var directory = await getTemporaryDirectory();
     // Añadir el nombre del archivo a la dirección temporal
     _filePath = directory.path + '/${DateTime.now()}.jpg';
@@ -186,6 +198,11 @@ class _CameraScreenState extends State<CameraScreen> {
         //Positioned(bottom: 0 , left: 160, child: _buildControls(context)),
             Positioned.fill(child: Align(alignment: Alignment.bottomCenter,child: _buildControls(context)))
       ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _isRecording ? () => {} : _onSwitchCamera,
+        child: Icon(Icons.switch_camera),//Icon(_getCameraIcon(_cameras[_cameraIndex].lensDirection)),
+        backgroundColor: Colors.white,
+      ),
     );
   }
 }
