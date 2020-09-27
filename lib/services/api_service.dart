@@ -430,6 +430,27 @@ class ApiService {
     }
   }
 
+  Future<bool> buyProducts(int token, List<int> productsId) async {
+    print("IN BUY PRODUCT");
+    var response = await http.post('${BASE_URL}/buy_products',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': '${token}'
+      },
+        body: jsonEncode(<String, dynamic>{'products': productsId}));
+    if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
+      if(res['code'] == 200) {
+        var done = jsonDecode(res['data']);
+        return done;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   Future<List<User>> search(int token, String query) async {
     print("IN SEARCH FUNCTION");
     print("REQUEST FOR USER: ${token}, QUERY: ${query}");

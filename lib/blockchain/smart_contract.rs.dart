@@ -32,12 +32,12 @@ Future<void> main() async {
   // read the contract abi and tell web3dart where it's deployed (contractAddr)
   final abiCode = await abiFile.readAsString();
   final contract =
-  DeployedContract(ContractAbi.fromJson(abiCode, 'MetaCoin'), contractAddr);
+  DeployedContract(ContractAbi.fromJson(abiCode, 'Squarrin'), contractAddr);
 
   // extracting some functions and events that we'll need later
   final transferEvent = contract.event('Transfer');
   final balanceFunction = contract.function('getBalance');
-  final sendFunction = contract.function('sendCoin');
+  final sendFunction = contract.function('send');
 
   // listen for the Transfer event when it's emitted by the contract above
   final subscription = client
@@ -50,13 +50,13 @@ Future<void> main() async {
     final to = decoded[1] as EthereumAddress;
     final value = decoded[2] as BigInt;
 
-    print('$from sent $value MetaCoins to $to');
+    print('$from sent $value Squarrin to $to');
   });
 
   // check our balance in MetaCoins by calling the appropriate function
   final balance = await client.call(
       contract: contract, function: balanceFunction, params: [ownAddress]);
-  print('We have ${balance.first} MetaCoins');
+  print('We have ${balance.first} Squarrin');
 
   // send all our MetaCoins to the other address by calling the sendCoin
   // function
