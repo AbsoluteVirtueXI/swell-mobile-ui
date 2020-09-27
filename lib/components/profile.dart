@@ -16,6 +16,7 @@ import 'package:swell_mobile_ui/screens/followees_screen.dart';
 import 'package:swell_mobile_ui/models/feedme.dart';
 import 'package:swell_mobile_ui/components/image_tile.dart';
 import 'package:swell_mobile_ui/screens/edit_profile_screen.dart';
+import 'package:swell_mobile_ui/screens/bought_screen.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';  // Import package for ClipPolygon
 
 const BASE_URL = 'https://api.squarrin.com';
@@ -104,7 +105,11 @@ class ProfileWidget extends StatelessWidget {
                               Icons.stay_current_portrait,
                               color: Colors.white,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => BoughtScreen(
+                                  )));
+                            },
                           )
                         ],
                       ),
